@@ -7,66 +7,45 @@ namespace NetDiskServer.ViewModels
 {
     public class RequestTokenModel
     {
-        public string oauth_consumer_key { get; set; }
-
-        public string oauth_signature_method { get; set; }
-
-        public string oauth_signature { get; set; }
-
-        public int oauth_timestamp { get; set; }
-
-        public string oauth_nonce { get; set; }
-
-        public string oauth_version { get; set; }
-
         /// <summary>
-        /// Gets or sets the oauth_callback.
+        /// Gets or sets the oauth_token_secret.
         /// </summary>
         /// <value>
-        /// The oauth_callback url.
+        /// The oauth_token_secret.
         /// </value>
-        public string oauth_callback { get; set; }
-    }
+        public string oauth_token_secret { get; set; }
 
-    public class AuthorizeModel
-    {
         /// <summary>
-        /// Gets or sets the temp oauth_token.
+        /// Gets or sets the oauth_token.
         /// </summary>
         /// <value>
         /// The oauth_token.
         /// </value>
         public string oauth_token { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="RequestTokenViewModel"/> is oauth_callback_confirmed.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if oauth_callback_confirmed; otherwise, <c>false</c>.
+        /// </value>
+        public bool oauth_callback_confirmed { get; set; }
     }
 
-    /// <summary>
-    /// authorise 页面提交的结果，验证过后会跳转到指定的callback
-    /// </summary>
+
     public class Authorize2Model
     {
-        public string Email { get; set; }
-
-        public string Password { get; set; }
-
-        public bool allow { get; set; }
+        public string oauth_verifier { get; set; }
     }
 
     public class AccessTokenModel
     {
-        public string oauth_consumer_key { get; set; }
-
-        public string oauth_signature_method { get; set; }
-
-        public string oauth_signature { get; set; }
-
-        public int timestamp { get; set; }
-
-        public string oauth_nonce { get; set; }
-
-        public string oauth_version { get; set; }
+        public string oauth_token_secret { get; set; }
 
         public string oauth_token { get; set; }
 
-        public string oauth_verifier { get; set; }
+        public int UserId { get; set; }
+
+        public string charged_dir { get; set; }
     }
 }

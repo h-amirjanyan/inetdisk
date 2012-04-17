@@ -9,9 +9,12 @@ namespace NetDiskServer.DAL
     public class UnitOfWork : IDisposable
     {
         private NetdiskContext context = new NetdiskContext();
+        private DCacheContext dChacheContext = new DCacheContext();
+
         private FileRepository filesRepository;
         private UserRepository userRepository;
         private ConsumerRepository consumerRepository;
+        private TokenRepository tokenRepository;
 
         public FileRepository FilesRepository
         {
@@ -49,6 +52,18 @@ namespace NetDiskServer.DAL
             }
         }
 
+        public TokenRepository TokenReposity
+        {
+            get
+            {
+                if (this.tokenRepository == null)
+                {
+                    this.tokenRepository = new TokenRepository(dChacheContext);
+                }
+                return tokenRepository;
+            }
+        }
+
         public void Save()
         {
             context.SaveChanges();
@@ -63,6 +78,7 @@ namespace NetDiskServer.DAL
                 if (disposing)
                 {
                     context.Dispose();
+                    dChacheContext.Dispose();
                 }
                 this.disposed = true;
             }
