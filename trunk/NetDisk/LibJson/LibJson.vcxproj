@@ -11,14 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ThirdParty\include\json\autolink.h" />
-    <ClInclude Include="..\ThirdParty\include\json\config.h" />
-    <ClInclude Include="..\ThirdParty\include\json\features.h" />
-    <ClInclude Include="..\ThirdParty\include\json\forwards.h" />
-    <ClInclude Include="..\ThirdParty\include\json\json.h" />
-    <ClInclude Include="..\ThirdParty\include\json\reader.h" />
-    <ClInclude Include="..\ThirdParty\include\json\value.h" />
-    <ClInclude Include="..\ThirdParty\include\json\writer.h" />
     <ClInclude Include="src\json_batchallocator.h" />
   </ItemGroup>
   <ItemGroup>
