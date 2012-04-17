@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace NetDiskServer.Models
 {
@@ -20,6 +21,7 @@ namespace NetDiskServer.Models
         /// <value>
         /// The id.
         /// </value>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -83,6 +85,14 @@ namespace NetDiskServer.Models
         public bool IsDeleted { get; set; }
 
 
-        public int MyProperty { get; set; }
+
+        /// <summary>
+        /// Gets or sets the owner.
+        /// 外键支持
+        /// </summary>
+        /// <value>
+        /// The owner.
+        /// </value>
+        public virtual NetDiskUser Owner { get; set; }
     }
 }

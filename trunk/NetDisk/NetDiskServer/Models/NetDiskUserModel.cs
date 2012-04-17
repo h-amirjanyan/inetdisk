@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace NetDiskServer.Models
 {
@@ -16,6 +18,7 @@ namespace NetDiskServer.Models
         /// <value>
         /// The user id.
         /// </value>
+        [Key]
         public int UserId { get; set; }
 
         /// <summary>
