@@ -11,15 +11,6 @@ namespace NetDiskServer.Controllers
     /// </summary>
     public class OpenController : Controller
     {
-        //
-        // GET: /Open/
-
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-
         /// <summary>
         /// Requests the token.
         /// </summary>
