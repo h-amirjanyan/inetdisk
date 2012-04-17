@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NetDiskServer.Models;
+using NetDiskServer.ViewModels;
 
 namespace NetDiskServer.Controllers
 {
@@ -15,7 +17,7 @@ namespace NetDiskServer.Controllers
         /// Requests the token.
         /// </summary>
         /// <returns> </returns>
-        public JsonResult RequestToken()
+        public JsonResult RequestToken(Models.RequestTokenModel model)
         {
             return Json("", JsonRequestBehavior.AllowGet);
         }
