@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "NetDiskClient.h"
+#include "WebBrowser.h"
 
 #define MAX_LOADSTRING 100
 
@@ -118,6 +119,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
+   WebBrowser* bro = new WebBrowser();
+   bro->OpenUrl(_T("http://www.baidu.com"));
    return TRUE;
 }
 
