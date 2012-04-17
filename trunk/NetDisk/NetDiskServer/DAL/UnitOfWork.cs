@@ -11,6 +11,7 @@ namespace NetDiskServer.DAL
         private NetdiskContext context = new NetdiskContext();
         private FileRepository filesRepository;
         private UserRepository userRepository;
+        private ConsumerRepository consumerRepository;
 
         public FileRepository FilesRepository
         {
@@ -33,6 +34,18 @@ namespace NetDiskServer.DAL
                     this.userRepository = new UserRepository(context);
                 }
                 return userRepository;
+            }
+        }
+
+        public ConsumerRepository ConsumerRepository
+        {
+            get
+            {
+                if (this.consumerRepository == null)
+                {
+                    this.consumerRepository = new ConsumerRepository(context);
+                }
+                return consumerRepository;
             }
         }
 

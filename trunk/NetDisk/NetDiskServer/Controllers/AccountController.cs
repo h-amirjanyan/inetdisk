@@ -31,21 +31,6 @@ namespace NetDiskServer.Controllers
         {
             if (ModelState.IsValid)
             {
-                //// Attempt to register the user
-                //MembershipCreateStatus createStatus;
-                //Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
-
-                //if (createStatus == MembershipCreateStatus.Success)
-                //{
-                //    FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
-                //    return RedirectToAction("Index", "Home");
-                //}
-                //else
-                //{
-                //    ModelState.AddModelError("", ErrorCodeToString(createStatus));
-                //}
-
-                
                 NetDiskUser user = new NetDiskUser();
                 user.Email = model.Email;
                 user.RegisterDate = DateTime.Now;
@@ -64,7 +49,6 @@ namespace NetDiskServer.Controllers
                 {
                     ModelState.AddModelError("", "两次输入的密码不一样");
                 }
-                
             }
 
             // If we got this far, something failed, redisplay form
