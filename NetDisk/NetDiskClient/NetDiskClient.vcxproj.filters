@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="API">
+      <UniqueIdentifier>{2f61e3a3-23f4-450e-ac71-fbdca6b5512a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utl">
+      <UniqueIdentifier>{f469e847-5dd8-4bd1-837e-53a959c40699}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -36,6 +42,9 @@
     <ClInclude Include="NetDiskClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WebBrowser.h">
+      <Filter>Utl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -43,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="NetDiskClient.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebBrowser.cpp">
+      <Filter>Utl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
