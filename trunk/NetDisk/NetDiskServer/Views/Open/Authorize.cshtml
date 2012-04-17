@@ -1,0 +1,21 @@
+﻿@
+@{
+    ViewBag.Title = "Authorize";
+}
+
+<h2>Authorize</h2>
+@using (Html.BeginForm())
+{
+    <div>
+        <fieldset>
+            <legend>注册一个账户</legend>
+            <div class="editor-label">
+                @Html.LabelFor(m => m.UserName)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.UserName)
+                @Html.ValidationMessageFor(m => m.UserName)
+            </div>
+        </fieldset>
+    </div>
+}
