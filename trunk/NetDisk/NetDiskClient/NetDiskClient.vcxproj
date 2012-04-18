@@ -42,11 +42,15 @@
     <IncludePath>$(SolutionDir)\ThirdParty\include;$(IncludePath)</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
     <LibraryPath>$(SolutionDir)\ThirdParty\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)\Bin\$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\Temp</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)\ThirdParty\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\ThirdParty\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)\Bin\$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\Temp</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -84,16 +88,26 @@
     <None Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChangeNotifyWatcher.h" />
     <ClInclude Include="HttpClient.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="MD5Calc.h" />
+    <ClInclude Include="MD5Core.h" />
+    <ClInclude Include="NetdiskChangeWatcher.h" />
     <ClInclude Include="NetDiskClient.h" />
     <ClInclude Include="OauthClient.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ShellHelpers.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WebBrowser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HttpClient.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="MD5Calc.cpp" />
+    <ClCompile Include="MD5Core.cpp" />
+    <ClCompile Include="NetdiskChangeWatcher.cpp" />
     <ClCompile Include="NetDiskClient.cpp" />
     <ClCompile Include="OauthClient.cpp" />
     <ClCompile Include="stdafx.cpp">

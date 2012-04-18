@@ -7,9 +7,13 @@
 #include <curl/curl.h>
 #include <json/json.h>
 #include "HttpClient.h"
+#include "OauthClient.h"
+#include "MD5Calc.h"
+#include "Log.h"
 
 using namespace Utils;
 using namespace std;
+using namespace API;
 
 #define MAX_LOADSTRING 100
 
@@ -17,6 +21,10 @@ using namespace std;
 HINSTANCE hInst;								// current instance
 TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
+CLog*	g_IAPPTrace;
+
+string token;
+string token_secret;
 
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
@@ -127,16 +135,34 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    //初始化Curl
    curl_global_init(CURL_GLOBAL_ALL);
+   g_IAPPTrace = new CLog();
+   //g_IAPPTrace->Add("asd");
+   APP_TRACE("================日志开始====================");
+   OauthClient* oclient = new OauthClient();
+   string token;//临时token
+   string token_secret;//临时secret
+   int userid;
+   bool ret = oclient->GetTempToken(token,token_secret);
+   if(ret)//获取临时token成功
+   {
+	  oclient->Authorize(token);
+	  MessageBox(hWnd,_T("请在浏览器中完成授权，授权完成后请点击是继续！\r\n您已经完成授权，并确认继续?点“是”继续。"),_T("提示！"),NULL);
+	  if(oclient->AccessToken(token,token_secret,userid))
+		  {
+			  MessageBox(NULL,_T("获取acessToken成功"),_T("提示"),NULL);
+	  };
+   }
+   delete oclient;
 
    /*using namespace Utils;*/
 
    //Utils::HttpClient* client = new Utils::HttpClient();
 
-   Utils::HttpClient* client = new Utils::HttpClient();
-   string*  url = new string("http://127.0.0.1/Sync/Test");
-   //char *p = url->c_str();
-   client->GetBodyByUrl(const_cast<char*>(url->c_str()));
-   string* content = new string(client->m_strBuffer);
+   //Utils::HttpClient* client = new Utils::HttpClient();
+   //string*  url = new string("http://127.0.0.1/Sync/Test");
+   ////char *p = url->c_str();
+   //client->GetBodyByUrl(const_cast<char*>(url->c_str()));
+   //string* content = new string(client->m_strBuffer);
 
   /* int32 nLen = MultiByteToWideChar(CP_UTF8, 0, pu8, utf8Len, NULL, 0);  
    if (nLen <=0)  
@@ -152,7 +178,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	   return false;  
    }  
 */
-   Json::Reader reader;
+  /* Json::Reader reader;
    Json::Value value;
    if(reader.parse(*content,value))
    {
@@ -165,6 +191,14 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    WebBrowser* bro = new WebBrowser();
    bro->OpenUrl(_T("http://127.0.0.1/Sync/Test"));
+   return TRUE;*/
+
+   string file("C:\\Users\\Momo\\Desktop\\毕业实习小结_杜万智.doc");
+   unsigned char buf[16];
+   MD5Calc* calc = new MD5Calc();
+   calc->mdfile(const_cast<char*>(file.c_str()),buf);
+   string hash = calc->print_digest(buf);
+
    return TRUE;
 }
 
@@ -208,6 +242,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		EndPaint(hWnd, &ps);
 		break;
 	case WM_DESTROY:
+		APP_TRACE("===================日志结束==============");
 		PostQuitMessage(0);
 		break;
 	case WM_QUIT:
