@@ -7,6 +7,7 @@ namespace NetDiskServer.Helpers
 {
     public static class Extension
     {
+        //refer:http://codeclimber.net.nz/archive/2007/07/10/convert-a-unix-timestamp-to-a-.net-datetime.aspx
         public static double ConvertToUnixTimestamp(this DateTime date)
         {
             DateTime utc = date.ToUniversalTime();
@@ -23,9 +24,9 @@ namespace NetDiskServer.Helpers
 
  
     
-    //ConvertToUnixTimestamp(DateTime.UtcNow)
+//Demo://ConvertToUnixTimestamp(DateTime.UtcNow)
 
-//    static DateTime ConvertFromUnixTimestamp(double timestamp)
+//static DateTime ConvertFromUnixTimestamp(double timestamp)
 //{
 //    DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 //    return origin.AddSeconds(timestamp);

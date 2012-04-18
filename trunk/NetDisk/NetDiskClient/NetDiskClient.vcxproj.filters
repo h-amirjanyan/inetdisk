@@ -16,7 +16,7 @@
     <Filter Include="API">
       <UniqueIdentifier>{2f61e3a3-23f4-450e-ac71-fbdca6b5512a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utl">
+    <Filter Include="Utils">
       <UniqueIdentifier>{f469e847-5dd8-4bd1-837e-53a959c40699}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -39,11 +39,17 @@
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WebBrowser.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="OauthClient.h">
+      <Filter>API</Filter>
+    </ClInclude>
     <ClInclude Include="NetDiskClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WebBrowser.h">
-      <Filter>Utl</Filter>
+    <ClInclude Include="HttpClient.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -54,7 +60,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WebBrowser.cpp">
-      <Filter>Utl</Filter>
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="OauthClient.cpp">
+      <Filter>API</Filter>
+    </ClCompile>
+    <ClCompile Include="HttpClient.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

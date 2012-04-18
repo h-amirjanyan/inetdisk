@@ -36,14 +36,15 @@ namespace NetDiskServer.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Authorize(Models.AuthorizeModel model)
+        public ActionResult Authorize(string oauth_token)
         {
             
             //return Json("", JsonRequestBehavior.AllowGet);
 
-            //ViewModels.Authorize2Model ret = new ViewModels.Authorize2Model();
+            Models.Authorize2Model ret = new Models.Authorize2Model();
 
-            return View(model);
+            ret.TempToken = oauth_token;
+            return View(ret);
         }
         
         [HttpPost]
@@ -61,15 +62,24 @@ namespace NetDiskServer.Controllers
                 OauthTokenPair tokenpair = new OauthTokenPair();
                 tokenpair.oauth_token = token;
                 tokenpair.oauth_token_secret = tokenSecret;
-                tokenpair.UserId = user.UserName;
+                tokenpair.UserId = user.UserId;
+                TempToken2OfficialMap map = new TempToken2OfficialMap
+                {
+                    oauth_temp_token = model.TempToken,
+                    oauth_token = token
+                };
+
+
 
                 unitOfWork.TokenReposity.Insert(tokenpair);
 
-                return RedirectToAction("AuthorizeCompleted",123);
+                unitOfWork.TokenReposity.InsertMap(map);
+
+                return RedirectToAction("AuthorizeCompleted",new{verifyCode = 123});
                 
             }
             //验证数据，并跳转到AuthorizeCompleted
-            return View();
+            return View(model);
         }
 
         public ActionResult AuthorizeCompleted(int verifyCode)
@@ -82,9 +92,15 @@ namespace NetDiskServer.Controllers
         /// Accesses the token.
         /// </summary>
         /// <returns></returns>
-        public JsonResult AccessToken()
+        public JsonResult AccessToken(Models.AccessTokenModel model)
         {
-            return Json("", JsonRequestBehavior.AllowGet);
+            TempToken2OfficialMap map = unitOfWork.TokenReposity.AccessToken(model.oauth_token);
+            if (map != null)
+            {
+                OauthTokenPair pair = unitOfWork.TokenReposity.GetTokenPair(map.oauth_token);
+                return Json(pair, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new{err = "err"},JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)
