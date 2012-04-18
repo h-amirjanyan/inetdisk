@@ -19,6 +19,9 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{f469e847-5dd8-4bd1-837e-53a959c40699}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{e9e03026-418c-484d-99a4-fa068726f62e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -51,6 +54,24 @@
     <ClInclude Include="HttpClient.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="NetdiskChangeWatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="MD5Core.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="MD5Calc.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ShellHelpers.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeNotifyWatcher.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -67,6 +88,18 @@
     </ClCompile>
     <ClCompile Include="HttpClient.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="MD5Core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MD5Calc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NetdiskChangeWatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
