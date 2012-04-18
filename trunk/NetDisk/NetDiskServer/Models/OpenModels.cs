@@ -28,16 +28,16 @@ namespace NetDiskServer.Models
         public string oauth_callback { get; set; }
     }
 
-    public class AuthorizeModel
-    {
-        /// <summary>
-        /// Gets or sets the temp oauth_token.
-        /// </summary>
-        /// <value>
-        /// The oauth_token.
-        /// </value>
-        public string oauth_token { get; set; }
-    }
+    //public class AuthorizeModel
+    //{
+    //    /// <summary>
+    //    /// Gets or sets the temp oauth_token.
+    //    /// </summary>
+    //    /// <value>
+    //    /// The oauth_token.
+    //    /// </value>
+    //    public string oauth_token { get; set; }
+    //}
 
     /// <summary>
     /// authorise 页面提交的结果，验证过后会跳转到指定的callback
