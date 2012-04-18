@@ -72,7 +72,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RPCController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
-    <Compile Include="DAL\OpenController.cs" />
+    <Compile Include="Controllers\OpenController.cs" />
     <Compile Include="Controllers\SyncController.cs" />
     <Compile Include="DAL\ConsumerRepository.cs" />
     <Compile Include="DAL\DCacheContext.cs" />
@@ -86,6 +86,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\DatetimeHelper.cs" />
+    <Compile Include="Helpers\OauthFilter.cs" />
+    <Compile Include="Helpers\TokenHelper.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Consumer.cs" />
     <Compile Include="Models\FileUncomplete.cs" />

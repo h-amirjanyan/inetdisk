@@ -17,6 +17,7 @@ namespace NetDiskServer.DAL
 
         public bool Insert(OauthTokenPair tokenPair)
         {
+            this.context.Remove(tokenPair.oauth_token);
             return this.context.Store(StoreMode.Add, tokenPair.oauth_token, tokenPair);
         }
 
@@ -27,6 +28,7 @@ namespace NetDiskServer.DAL
 
         public bool InsertMap(TempToken2OfficialMap map)
         {
+            this.context.Remove(map.oauth_temp_token);
             return this.context.Store(StoreMode.Add, "map_" + map.oauth_temp_token, map);
         }
 
