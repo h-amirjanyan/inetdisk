@@ -85,6 +85,25 @@ namespace NetDiskServer.Models
         public bool IsDeleted { get; set; }
 
 
+        /// <summary>
+        /// Gets or sets the hash.
+        /// 文件的hash编码采用md5或SHA1
+        /// </summary>
+        /// <value>
+        /// The hash.
+        /// </value>
+        public string Hash { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets the DFS path.
+        /// 在DFS中的路径
+        /// </summary>
+        /// <value>
+        /// The DFS path.
+        /// 在DFS中的路径
+        /// </value>
+        public string DFSPath { get; set; }
 
         /// <summary>
         /// Gets or sets the owner.

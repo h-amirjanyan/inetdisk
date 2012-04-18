@@ -2,8 +2,15 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetDiskClient", "NetDiskClient\NetDiskClient.vcxproj", "{ED3EED20-E744-4C50-A473-9A5C3F1B4FDB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688} = {50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetDiskServer", "NetDiskServer\NetDiskServer.csproj", "{CE45DC22-AE93-4DCE-A45D-09D54927BB85}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", "{C4909605-2FBA-41AE-8FAE-843F789F5A81}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibJson", "LibJson\LibJson.vcxproj", "{50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,8 +42,21 @@ Global
 		{CE45DC22-AE93-4DCE-A45D-09D54927BB85}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{CE45DC22-AE93-4DCE-A45D-09D54927BB85}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CE45DC22-AE93-4DCE-A45D-09D54927BB85}.Release|Win32.ActiveCfg = Release|Any CPU
+		{50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688}.Debug|Win32.ActiveCfg = Debug|Win32
+		{50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688}.Debug|Win32.Build.0 = Debug|Win32
+		{50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688}.Release|Any CPU.ActiveCfg = Release|Win32
+		{50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688}.Release|Win32.ActiveCfg = Release|Win32
+		{50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{50F6ACB7-16A3-47DD-B8F3-8ECB12A3D688} = {C4909605-2FBA-41AE-8FAE-843F789F5A81}
 	EndGlobalSection
 EndGlobal

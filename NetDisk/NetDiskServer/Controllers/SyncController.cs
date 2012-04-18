@@ -23,6 +23,13 @@ namespace NetDiskServer.Controllers
             return View();
         }
 
+        public JsonResult Test()
+        {
+            return Json(new { name = "姓名" }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();

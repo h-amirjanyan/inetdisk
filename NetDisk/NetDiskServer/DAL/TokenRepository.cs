@@ -20,6 +20,21 @@ namespace NetDiskServer.DAL
             return this.context.Store(StoreMode.Add, tokenPair.oauth_token, tokenPair);
         }
 
+        public OauthTokenPair GetTokenPair(string token)
+        {
+            return this.context.Get<OauthTokenPair>(token);
+        }
+
+        public bool InsertMap(TempToken2OfficialMap map)
+        {
+            return this.context.Store(StoreMode.Add, "map_" + map.oauth_temp_token, map);
+        }
+
+        public TempToken2OfficialMap AccessToken(string tempToken)
+        {
+            return context.Get<TempToken2OfficialMap>("map_"+tempToken);
+        }
+
         public bool Delete(OauthTokenPair tokenPair)
         {
             return this.context.Remove(tokenPair.oauth_token);

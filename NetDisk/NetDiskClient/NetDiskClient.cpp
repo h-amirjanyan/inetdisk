@@ -4,6 +4,12 @@
 #include "stdafx.h"
 #include "NetDiskClient.h"
 #include "WebBrowser.h"
+#include <curl/curl.h>
+#include <json/json.h>
+#include "HttpClient.h"
+
+using namespace Utils;
+using namespace std;
 
 #define MAX_LOADSTRING 100
 
@@ -119,8 +125,46 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
+   //³õÊ¼»¯Curl
+   curl_global_init(CURL_GLOBAL_ALL);
+
+   /*using namespace Utils;*/
+
+   //Utils::HttpClient* client = new Utils::HttpClient();
+
+   Utils::HttpClient* client = new Utils::HttpClient();
+   string*  url = new string("http://127.0.0.1/Sync/Test");
+   //char *p = url->c_str();
+   client->GetBodyByUrl(const_cast<char*>(url->c_str()));
+   string* content = new string(client->m_strBuffer);
+
+  /* int32 nLen = MultiByteToWideChar(CP_UTF8, 0, pu8, utf8Len, NULL, 0);  
+   if (nLen <=0)  
+   {  
+	   return false;  
+   }  
+   pun.resize(nLen);  
+   int32 nRtn = MultiByteToWideChar(CP_UTF8, 0, pu8, utf8Len, &*pun.begin(), nLen);  */
+
+  /* if(nRtn != nLen)  
+   {  
+	   pun.clear();  
+	   return false;  
+   }  
+*/
+   Json::Reader reader;
+   Json::Value value;
+   if(reader.parse(*content,value))
+   {
+	   bool isNull = value["name"].isNull();
+	   if(!isNull)
+	   {
+		   string name = value["name"].asString();
+	   }
+   }
+
    WebBrowser* bro = new WebBrowser();
-   bro->OpenUrl(_T("http://www.baidu.com"));
+   bro->OpenUrl(_T("http://127.0.0.1/Sync/Test"));
    return TRUE;
 }
 
@@ -166,6 +210,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
+	case WM_QUIT:
+		MessageBox(NULL,_T("rrr"),_T("asd"),NULL);
+		
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}

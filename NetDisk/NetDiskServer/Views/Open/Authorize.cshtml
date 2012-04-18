@@ -1,4 +1,4 @@
-﻿@
+﻿@model NetDiskServer.Models.Authorize2Model
 @{
     ViewBag.Title = "Authorize";
 }
@@ -8,14 +8,35 @@
 {
     <div>
         <fieldset>
-            <legend>注册一个账户</legend>
+            <legend>请输入密码进行验证</legend>
             <div class="editor-label">
-                @Html.LabelFor(m => m.UserName)
+                @Html.LabelFor(m => m.Email)
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email)
             </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(m => m.Password)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.Password)
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(m => m.allow)
+            </div>
+            <div class="editor-field">
+                @Html.CheckBoxFor(m=>m.allow)
+                @Html.ValidationMessageFor(m => m.allow)
+            </div>
+            @Html.HiddenFor(m => m.TempToken)
+
+         <p>
+                <input type="submit" value="Authorize" />
+            </p>
         </fieldset>
     </div>
 }

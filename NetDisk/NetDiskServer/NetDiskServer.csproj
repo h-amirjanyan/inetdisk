@@ -68,8 +68,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OpenController.cs" />
+    <Compile Include="Controllers\RPCController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
+    <Compile Include="DAL\OpenController.cs" />
     <Compile Include="Controllers\SyncController.cs" />
     <Compile Include="DAL\ConsumerRepository.cs" />
     <Compile Include="DAL\DCacheContext.cs" />
@@ -82,14 +85,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DatetimeHelper.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Consumer.cs" />
+    <Compile Include="Models\FileUncomplete.cs" />
     <Compile Include="Models\NameSpaceModels.cs" />
     <Compile Include="Models\NetDiskUserModel.cs" />
     <Compile Include="Models\OauthToken.cs" />
     <Compile Include="Models\OpenModels.cs" />
+    <Compile Include="Models\SyncBaseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\OpenViewModels.cs" />
+    <Compile Include="ViewModels\SyncBaseViewModel.cs" />
+    <Compile Include="ViewModels\SyncViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -163,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
