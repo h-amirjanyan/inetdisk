@@ -2,6 +2,8 @@
 
 #include <curl/curl.h>
 #include <string>
+#include <map>
+
 namespace Utils
 {
 	using namespace std;
@@ -137,9 +139,96 @@ namespace Utils
 			return true;
 		}
 
+
+
+		bool Request(char* url)
+		{
+			string strurl(url);
+			CURL *conn = NULL;
+			CURLcode code;
+
+			conn = curl_easy_init();
+
+			if (conn == NULL)
+			{
+				fprintf(stderr, "Failed to create CURL connection\n");
+
+				exit(EXIT_FAILURE);
+			}
+
+			code = curl_easy_setopt(conn, CURLOPT_ERRORBUFFER, this->m_chErrorBuffer);
+			if (code != CURLE_OK)
+			{
+				fprintf(stderr, "Failed to set error buffer [%d]\n", code);
+
+				return false;
+			}
+
+			if(m_params.size() > 0)
+			{
+				strurl += "?";
+				map<string,string>::iterator it = m_params.begin();
+				for (;it != m_params.end(); ++it )
+				{
+					if(it != m_params.begin())
+						strurl += "&";
+					strurl += it->first;
+					strurl += "=";
+					strurl += curl_easy_escape(conn,it->second.c_str(),it->second.length());
+				}
+			}
+
+			code = curl_easy_setopt(conn, CURLOPT_URL, strurl.c_str());
+			if (code != CURLE_OK)
+			{
+				fprintf(stderr, "Failed to set URL [%s]\n", this->m_chErrorBuffer);
+				return false;
+			}
+
+			code = curl_easy_setopt(conn, CURLOPT_FOLLOWLOCATION, 1L);
+			if (code != CURLE_OK)
+			{
+				fprintf(stderr, "Failed to set redirect option [%s]\n", this->m_chErrorBuffer);
+				return false;
+			}
+
+			code = curl_easy_setopt(conn, CURLOPT_WRITEFUNCTION, &writer);
+			if (code != CURLE_OK)
+			{
+				fprintf(stderr, "Failed to set writer [%s]\n", this->m_chErrorBuffer);
+				return false;
+			}
+
+			code = curl_easy_setopt(conn, CURLOPT_WRITEDATA, &(this->m_strBuffer));
+			if (code != CURLE_OK)
+			{
+				fprintf(stderr, "Failed to set write data [%s]\n", this->m_chErrorBuffer);
+				return false;
+			}
+
+			code = curl_easy_perform(conn);
+			curl_easy_cleanup(conn);
+
+			if (code != CURLE_OK)
+			{
+				fprintf(stderr, "Failed to get '%s' [%s]\n", url, this->m_chErrorBuffer);
+				return false;
+			}
+			printf("buffer: %s\n", this->m_strBuffer.c_str());
+
+			curl_easy_cleanup(conn);
+			return true;
+		}
+		
+		void AddParam(string index,string strvalue)
+		{
+			m_params.insert(map<string,string>::value_type(index,strvalue));
+		}
+
 	public:
 		char m_chErrorBuffer[CURL_ERROR_SIZE];
 		string m_strBuffer;
+		map<string,string> m_params;
 	};
 
 }
