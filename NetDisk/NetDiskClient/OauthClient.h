@@ -70,7 +70,7 @@ namespace API
 		bool Authorize(string& str_oauth_token)
 		{
 			//打开浏览器获取oauth_token
-			WebBrowser* bro = new WebBrowser();
+			MyWebBrowser* bro = new MyWebBrowser();
 			string* url = new string("http://127.0.0.1:5243/Open/Authorize?oauth_token=");//CA2W
 			url->append(str_oauth_token);
 			bool ret = bro->OpenUrl(CA2W(url->c_str()));

@@ -2,11 +2,11 @@
 #include <ShellAPI.h>
 namespace Utils
 {
-	class WebBrowser
+	class MyWebBrowser
 	{
 	public:
-		WebBrowser(void);
-		~WebBrowser(void);
+		MyWebBrowser(void);
+		~MyWebBrowser(void);
 
 		bool OpenUrl(TCHAR* szUrl,HWND hWnd = NULL)
 		{
