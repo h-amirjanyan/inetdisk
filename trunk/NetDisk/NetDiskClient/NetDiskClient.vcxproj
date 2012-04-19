@@ -89,6 +89,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChangeNotifyWatcher.h" />
+    <ClInclude Include="DownloadThread.h" />
+    <ClInclude Include="FileChange.h" />
     <ClInclude Include="HttpClient.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="MD5Calc.h" />
@@ -96,13 +98,19 @@
     <ClInclude Include="NetdiskChangeWatcher.h" />
     <ClInclude Include="NetDiskClient.h" />
     <ClInclude Include="OauthClient.h" />
+    <ClInclude Include="OPini.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ShellHelpers.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TodoList.h" />
+    <ClInclude Include="UploadThread.h" />
     <ClInclude Include="WebBrowser.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChangeNotifyWatcher.cpp" />
+    <ClCompile Include="DownloadThread.cpp" />
+    <ClCompile Include="FileChange.cpp" />
     <ClCompile Include="HttpClient.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="MD5Calc.cpp" />
@@ -110,10 +118,13 @@
     <ClCompile Include="NetdiskChangeWatcher.cpp" />
     <ClCompile Include="NetDiskClient.cpp" />
     <ClCompile Include="OauthClient.cpp" />
+    <ClCompile Include="OPini.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TodoList.cpp" />
+    <ClCompile Include="UploadThread.cpp" />
     <ClCompile Include="WebBrowser.cpp" />
   </ItemGroup>
   <ItemGroup>

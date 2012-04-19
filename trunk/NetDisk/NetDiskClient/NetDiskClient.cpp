@@ -2,14 +2,23 @@
 //
 
 #include "stdafx.h"
-#include "NetDiskClient.h"
-#include "WebBrowser.h"
+#include <ShellAPI.h>
+#include <ShObjIdl.h>
+#include <ShlObj.h>
+
 #include <curl/curl.h>
 #include <json/json.h>
+
+#include "NetDiskClient.h"
+#include "WebBrowser.h"
 #include "HttpClient.h"
 #include "OauthClient.h"
 #include "MD5Calc.h"
 #include "Log.h"
+#include "NetdiskChangeWatcher.h"
+#include "TodoList.h"
+#include "DownloadThread.h"
+#include "UploadThread.h"
 
 using namespace Utils;
 using namespace std;
@@ -26,11 +35,24 @@ CLog*	g_IAPPTrace;
 string token;
 string token_secret;
 
+NetdiskChangeWatcher* watcher = NULL;
+TodoList*	todolist = NULL;
+int			lastSyncId = 0;	// 上次同步的文件编号
+CUploadThread*		g_uploadThread = NULL;
+CDownloadThread*	g_downloadThread = NULL;
+
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
+
+//处理文件上传的线程 
+DWORD WINAPI UploadProc(LPVOID param);
+
+//处理同步的线程
+DWORD WINAPI DownloadProc(LPVOID param);
+
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
@@ -67,6 +89,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		}
 	}
 
+	APP_TRACE("===================日志结束==============");
 	return (int) msg.wParam;
 }
 
@@ -133,10 +156,34 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
-   //初始化Curl
+   //初始化
    curl_global_init(CURL_GLOBAL_ALL);
    g_IAPPTrace = new CLog();
-   //g_IAPPTrace->Add("asd");
+   todolist = new TodoList();
+
+   g_downloadThread = new CDownloadThread(todolist,lastSyncId);
+   //在验证过后开启该线程
+   g_uploadThread = new CUploadThread(todolist);
+
+   
+
+
+  //CComPtr<IShellItem2> psi /*= new IShellItem2()*/;
+   IShellItem2* psi  = NULL;
+
+   //IShellItem2* psi;
+   HRESULT result = ::SHCreateItemFromParsingName(_T("D:\\Netdisk"),0,IID_IShellItem2,reinterpret_cast<void**>(&psi));
+   if(result != S_OK) 
+	   MessageBox(NULL,_T("创建shellitem失败"),_T("警告"),NULL);
+   else
+   {
+	   watcher = new NetdiskChangeWatcher(hWnd,psi,g_uploadThread);
+	   watcher->StartWatching(psi,hWnd,WM_USERCHANGED,SHCNE_ALLEVENTS,TRUE);
+   }
+
+
+
+
    APP_TRACE("================日志开始====================");
    OauthClient* oclient = new OauthClient();
    string token;//临时token
@@ -199,6 +246,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    calc->mdfile(const_cast<char*>(file.c_str()),buf);
    string hash = calc->print_digest(buf);
 
+   
+
+   g_downloadThread->Start();
+   g_uploadThread->Create();
    return TRUE;
 }
 
@@ -241,8 +292,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// TODO: Add any drawing code here...
 		EndPaint(hWnd, &ps);
 		break;
+	case WM_USERCHANGED:
+		{
+			if(watcher)
+			{
+				watcher->OnChangeMessage(wParam,lParam);
+			}
+			break;
+		}
 	case WM_DESTROY:
-		APP_TRACE("===================日志结束==============");
+		
 		PostQuitMessage(0);
 		break;
 	case WM_QUIT:
@@ -273,3 +332,5 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	return (INT_PTR)FALSE;
 }
+
+

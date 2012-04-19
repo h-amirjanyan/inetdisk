@@ -3,13 +3,13 @@
 
 namespace Utils
 {
-	WebBrowser::WebBrowser(void)
+	MyWebBrowser::MyWebBrowser(void)
 	{
 		hInst = NULL;
 	}
 
 
-	WebBrowser::~WebBrowser(void)
+	MyWebBrowser::~MyWebBrowser(void)
 	{
 	}
 }
