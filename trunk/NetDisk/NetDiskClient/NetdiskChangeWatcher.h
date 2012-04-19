@@ -105,6 +105,7 @@ public:
 
 
 
+
 	HWND m_hWnd;//接受消息的窗口
 	IShellItem2* m_psi;
 	TodoList* pTodolist;

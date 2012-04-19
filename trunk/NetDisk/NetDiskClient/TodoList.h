@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 enum OP_TYPE
@@ -33,15 +34,36 @@ public:
 		return size;
 	}
 
-	bool Add(CFileOperaType* operate)
+	bool Add(CFileOperaType* &operate)
 	{
 		WaitForSingleObject(m_mutex,INFINITE);
 		m_vecOperate.push_back(operate);
 		ReleaseMutex(m_mutex);
 		return true;
 	}
-
-	bool Get(CFileOperaType* operate)
+	bool Remove(CFileOperaType* operate)
+	{
+		if(operate)
+		{
+			WaitForSingleObject(m_mutex,INFINITE);
+			if(m_vecOperate.size() > 0)
+			{
+				vector<CFileOperaType*>::iterator it = find(m_vecOperate.begin(),m_vecOperate.end(),operate);
+				if(it == m_vecOperate.end())
+				{
+					//Ã»ÕÒµ½
+				}
+				else
+				{
+					m_vecOperate.erase(it);
+				}
+			}
+			ReleaseMutex(m_mutex);
+			return true;
+		}
+		return false;
+	}
+	bool Get(CFileOperaType* &operate)
 	{
 		if(operate)
 		{
@@ -52,8 +74,7 @@ public:
 		WaitForSingleObject(m_mutex,INFINITE);
 		if(m_vecOperate.size() > 0)
 		{
-			operate = m_vecOperate.at(0);
-			m_vecOperate.erase(m_vecOperate.begin());
+			operate = *(m_vecOperate.begin());
 		}
 		ReleaseMutex(m_mutex);
 		
