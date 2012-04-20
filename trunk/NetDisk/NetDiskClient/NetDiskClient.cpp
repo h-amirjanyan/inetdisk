@@ -196,7 +196,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	  MessageBox(hWnd,_T("请在浏览器中完成授权，授权完成后请点击是继续！\r\n您已经完成授权，并确认继续?点“是”继续。"),_T("提示！"),NULL);
 	  if(oclient->AccessToken(token,token_secret,userid))
 		  {
- 			  MessageBox(NULL,_T("获取acessToken成功"),_T("提示"),NULL);
+ 			  MessageBox(hWnd,_T("获取acessToken成功"),_T("提示"),NULL);
 	  };
    }
    delete oclient;
