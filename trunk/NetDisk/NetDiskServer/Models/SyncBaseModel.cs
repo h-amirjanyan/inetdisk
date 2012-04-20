@@ -15,5 +15,8 @@ namespace NetDiskServer.Models
         public string timestamp { get; set; }
         public string oauth_nonce { get; set; }
         public string oauth_version { get; set; }
+
+        public string ClientName { get; set; } //用户标识更新客户端
+        public int UserId { get; set; }
     }
 }

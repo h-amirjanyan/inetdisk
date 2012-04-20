@@ -147,6 +147,12 @@ namespace Utils
 			CURL *conn = NULL;
 			CURLcode code;
 
+
+			struct curl_httppost *formpost=NULL;
+			struct curl_httppost *lastptr=NULL;
+			struct curl_slist *headerlist=NULL;
+			static const char buf[] = "Expect:";
+
 			conn = curl_easy_init();
 
 			if (conn == NULL)
@@ -185,6 +191,19 @@ namespace Utils
 				return false;
 			}
 
+			if(!m_strFilefieldName.empty() && !m_strFileFullPath.empty())
+			{
+				headerlist = curl_slist_append(headerlist, buf);
+				/* Fill in the file upload field */ 
+				curl_formadd(&formpost,
+					&lastptr,
+					CURLFORM_COPYNAME, m_strFilefieldName.c_str(),
+					CURLFORM_FILE, m_strFileFullPath.c_str(),
+					CURLFORM_END);
+				curl_easy_setopt(conn, CURLOPT_HTTPHEADER, headerlist);
+				curl_easy_setopt(conn, CURLOPT_HTTPPOST, formpost);
+			}
+
 			code = curl_easy_setopt(conn, CURLOPT_FOLLOWLOCATION, 1L);
 			if (code != CURLE_OK)
 			{
@@ -208,6 +227,10 @@ namespace Utils
 
 			code = curl_easy_perform(conn);
 			curl_easy_cleanup(conn);
+			/* then cleanup the formpost chain */ 
+			curl_formfree(formpost);
+			/* free slist */ 
+			curl_slist_free_all (headerlist);
 
 			if (code != CURLE_OK)
 			{
@@ -216,7 +239,6 @@ namespace Utils
 			}
 			printf("buffer: %s\n", this->m_strBuffer.c_str());
 
-			curl_easy_cleanup(conn);
 			return true;
 		}
 		
@@ -225,10 +247,21 @@ namespace Utils
 			m_params.insert(map<string,string>::value_type(index,strvalue));
 		}
 
+		void Clear()
+		{
+			m_strFilefieldName = "";
+			m_strFileFullPath = "";
+			m_strBuffer = "";
+			m_params.clear();
+			memset(m_chErrorBuffer,0,CURL_ERROR_SIZE);
+		}
 	public:
 		char m_chErrorBuffer[CURL_ERROR_SIZE];
 		string m_strBuffer;
 		map<string,string> m_params;
+
+		string m_strFilefieldName;
+		string m_strFileFullPath;
 	};
 
 }

@@ -17,6 +17,9 @@ namespace NetDiskServer.Models
         /// </value>
         public DbSet<File> Files { get; set; }
 
+        
+        public DbSet<FileUncomplete> FileUncomplete { get; set; }
+
         /// <summary>
         /// Gets or sets the netdisk users.
         /// </summary>
@@ -31,6 +34,9 @@ namespace NetDiskServer.Models
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Entity<File>()
+                .HasOptional(p => p.Owner);
+
+            modelBuilder.Entity<FileUncomplete>()
                 .HasOptional(p => p.Owner);
         }
     }

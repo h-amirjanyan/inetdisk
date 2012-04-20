@@ -7,5 +7,8 @@ namespace NetDiskServer.ViewModels
 {
     public class SyncViewModels
     {
+        public int ret { get; set; }
+        public string msg { get; set; }
+
     }
 }

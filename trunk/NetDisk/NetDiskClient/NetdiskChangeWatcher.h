@@ -1,5 +1,6 @@
 #pragma once
 #include "changenotifywatcher.h"
+#pragma warning(disable:4995) 
 #include <string>
 #include "TodoList.h"
 #include "UploadThread.h"
@@ -112,3 +113,4 @@ public:
 	CUploadThread* pUploadThread;
 };
 
+#pragma warning(default:4995) 
