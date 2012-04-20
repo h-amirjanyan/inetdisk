@@ -54,5 +54,8 @@ public:
 	HANDLE		hThread;
 	unsigned	uThreadId;
 	int&		lastSyncId;
+	string		oauth_token;
+	string		oauth_token_secret;
+	string		strDBPath;
 };
 

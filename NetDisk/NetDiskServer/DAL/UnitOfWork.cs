@@ -15,6 +15,7 @@ namespace NetDiskServer.DAL
         private UserRepository userRepository;
         private ConsumerRepository consumerRepository;
         private TokenRepository tokenRepository;
+        private FileUncompleteRepository fileUncompleteRepository;
 
         public FileRepository FilesRepository
         {
@@ -61,6 +62,18 @@ namespace NetDiskServer.DAL
                     this.tokenRepository = new TokenRepository(dChacheContext);
                 }
                 return tokenRepository;
+            }
+        }
+
+        public FileUncompleteRepository FileUncompleteRepository
+        {
+            get
+            {
+                if (this.fileUncompleteRepository == null)
+                {
+                    this.fileUncompleteRepository = new FileUncompleteRepository(context);
+                }
+                return this.fileUncompleteRepository;
             }
         }
 

@@ -196,7 +196,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	  MessageBox(hWnd,_T("请在浏览器中完成授权，授权完成后请点击是继续！\r\n您已经完成授权，并确认继续?点“是”继续。"),_T("提示！"),NULL);
 	  if(oclient->AccessToken(token,token_secret,userid))
 		  {
-			  MessageBox(NULL,_T("获取acessToken成功"),_T("提示"),NULL);
+ 			  MessageBox(NULL,_T("获取acessToken成功"),_T("提示"),NULL);
 	  };
    }
    delete oclient;
@@ -239,17 +239,29 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    WebBrowser* bro = new WebBrowser();
    bro->OpenUrl(_T("http://127.0.0.1/Sync/Test"));
    return TRUE;*/
-
+   /*
    string file("C:\\Users\\Momo\\Desktop\\毕业实习小结_杜万智.doc");
    unsigned char buf[16];
    MD5Calc* calc = new MD5Calc();
    calc->mdfile(const_cast<char*>(file.c_str()),buf);
    string hash = calc->print_digest(buf);
-
+   */
    
+   string strDbPath("netdisk.db");
+   strDbPath.insert(0,"\\");
+   strDbPath.insert(0,DB_PATH);
+
+   g_uploadThread->oauth_token = token;
+   g_uploadThread->oauth_token_secret = token_secret;
+   g_uploadThread->strDBPath = strDbPath;
+
+   g_downloadThread->oauth_token = token;
+   g_downloadThread->oauth_token_secret = token_secret;
+   g_downloadThread->strDBPath = strDbPath;
 
    g_downloadThread->Start();
    g_uploadThread->Create();
+
    return TRUE;
 }
 

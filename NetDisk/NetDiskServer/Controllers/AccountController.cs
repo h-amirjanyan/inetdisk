@@ -29,6 +29,7 @@ namespace NetDiskServer.Controllers
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
+            //TODO:注册的时候检查是否唯一
             if (ModelState.IsValid)
             {
                 NetDiskUser user = new NetDiskUser();
