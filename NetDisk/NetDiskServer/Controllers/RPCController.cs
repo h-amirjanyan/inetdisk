@@ -27,6 +27,7 @@ namespace NetDiskServer.Controllers
             //FileName
             OauthTokenPair pair = unitOfWork.TokenReposity.GetTokenPair(model.oauth_token);
             NetDiskUser user = unitOfWork.UserRepositiry.dbSet.SingleOrDefault(u => u.UserId == pair.UserId);
+            db.NetdiskUsers.Attach(user);
             FileUncomplete fileUncomplete = new FileUncomplete
                 {
                     FileName = model.FileName.GetFileName(),
@@ -39,6 +40,7 @@ namespace NetDiskServer.Controllers
             UploadPrepareViewModel viewmodel = new UploadPrepareViewModel();
             try
             {
+
                 db.FileUncomplete.Add(fileUncomplete);
                 db.SaveChanges();
                 viewmodel.ret = 0;
@@ -67,6 +69,7 @@ namespace NetDiskServer.Controllers
         {
             OauthTokenPair pair = unitOfWork.TokenReposity.GetTokenPair(model.oauth_token);
             NetDiskUser user = unitOfWork.UserRepositiry.dbSet.SingleOrDefault(u => u.UserId == pair.UserId);
+            db.NetdiskUsers.Attach(user);
             FileUncomplete fileUncomplete = db.FileUncomplete.SingleOrDefault(f => f.Id == model.Id);
             uploadCompleteViewModel viewModel = new uploadCompleteViewModel();
             if (fileUncomplete == null)
@@ -117,6 +120,9 @@ namespace NetDiskServer.Controllers
                     viewModel.ret = 0;
                     viewModel.NewFilename = file.FileName;
                     viewModel.Reversion = file.Reversion;
+
+                    db.FileUncomplete.Remove(fileUncomplete);
+                    db.SaveChanges();
                 }
                 catch (System.Exception ex)
                 {
