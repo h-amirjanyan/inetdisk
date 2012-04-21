@@ -5,7 +5,6 @@
 #include "macros.h"
 //#include <sqlite/sqlite3.h>
 #include "MD5Calc.h"
-#include <atlbase.h>
 #include "HttpClient.h"
 #include "OauthClient.h"
 #include <atlbase.h>
@@ -36,6 +35,8 @@ public:
 		CUploadThread* self = (CUploadThread*) pThis;
 		while(1)
 		{
+			//临界区开始
+			EnterCriticalSection(self->_critical);
 			if(self->pTodolist->GetSize() > 0)
 			{
 				//开始上传流程
@@ -57,10 +58,14 @@ public:
 				}
 				
 			}
-			else
+			//临界区结束
+			LeaveCriticalSection(self->_critical);
+			if(self->pTodolist->GetSize() == 0)
 			{
-				APP_TRACE("没有文件需要上传，小睡一会");
-				Sleep(30*1000);//休眠30s
+				APP_TRACE("没有文件需要上传，进入休眠状态");
+				//Sleep(10*60*1000);//休眠10s
+				Sleep(30*1000);
+				APP_TRACE("上传线程休眠结束");
 			}
 		}
 	}
@@ -129,6 +134,24 @@ public:
 					APP_TRACE("上传%s失败,原因为:%s",W2CA(wstrLongLocalPath.c_str()),value["msg"].asString().c_str());
 					goto EXIT;
 				}
+
+				
+				//TODO判断服务器上该路径的该hash的文件是否存在，如果存在则是没有插入到本地数据库，此时需要重插
+				if(value["IsExitsRemote"].asBool())
+				{
+					char szReinsert[356];
+					sprintf(szReinsert,"insert into Files (Id,FileName,Reversion,Hash) values(%d,'%s','%d','%s');",
+						value["RemoteId"].asString().c_str(),
+							strFilename.c_str(),
+							value["RemoteReversion"].asInt(),
+							value["RemoteHash"].asString().c_str());
+					UpdateDB(szReinsert);
+					bOperateResult = true;
+					goto EXIT;
+				}
+				
+
+
 				string strDfsPath = value["DFSPath"].asString();
 				int Id = value["Id"].asInt();
 
@@ -228,13 +251,13 @@ public:
 			}
 			else if(isExits && (oldHash != hash))
 			{
-				//走更新流程	,赞不实现，情况是文件在客户端没有打开的时候删除再创建
+				//走更新流程	,赞不实现，情况是文件在客户端没有打开的时候删除再创建,或者客户端下载之后立即被更新
 				bOperateResult = true;
 				goto EXIT;
 			}
-			else if(isExits && (oldHash != hash))
+			else if(isExits && (oldHash == hash))
 			{
-				//删除再找回，且本地没有提交到服务器
+				//删除再找回，且本地没有提交到服务器或从服务器刚刚下载
 				//此情况忽略
 				bOperateResult = true;
 				goto EXIT;
@@ -288,13 +311,14 @@ public:
 		sprintf(buffer,"select Hash from Files where FileName like '%s'",strFilename.c_str());
 		CppSQLite3Table t = db.getTable(buffer);
 		bool ret = (bool)t.numRows();
-		t.finalize();
+		
 
 		if(ret)
 		{
 			t.setRow(0);
 			*strOldFilename = t.getStringField(0);
 		}
+		t.finalize();
 		db.close();
 	}
 
@@ -328,6 +352,8 @@ public:
 	string		oauth_token;
 	string		oauth_token_secret;
 	string		strDBPath;
+
+	CRITICAL_SECTION *_critical;
 };
 
 #pragma warning(default:4995) 
