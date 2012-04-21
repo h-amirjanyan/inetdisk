@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChangeNotifyWatcher.h" />
+    <ClInclude Include="Common.h" />
     <ClInclude Include="CppSQLite3.h" />
     <ClInclude Include="DownloadThread.h" />
     <ClInclude Include="FileChange.h" />
@@ -112,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChangeNotifyWatcher.cpp" />
+    <ClCompile Include="Common.cpp" />
     <ClCompile Include="CppSQLite3.cpp" />
     <ClCompile Include="DownloadThread.cpp" />
     <ClCompile Include="FileChange.cpp" />

@@ -32,12 +32,14 @@ TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
 CLog*	g_IAPPTrace;
 
+CRITICAL_SECTION g_UpDownCritical; //上传下载全局临界区
+
 string token;
 string token_secret;
 
 NetdiskChangeWatcher* watcher = NULL;
 TodoList*	todolist = NULL;
-int			lastSyncId = 0;	// 上次同步的文件编号
+int			lastSyncId = -1;	// 上次同步的文件编号
 CUploadThread*		g_uploadThread = NULL;
 CDownloadThread*	g_downloadThread = NULL;
 
@@ -88,7 +90,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 			DispatchMessage(&msg);
 		}
 	}
-
+	DeleteCriticalSection(&g_UpDownCritical);
 	APP_TRACE("===================日志结束==============");
 	return (int) msg.wParam;
 }
@@ -159,11 +161,20 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    //初始化
    curl_global_init(CURL_GLOBAL_ALL);
    g_IAPPTrace = new CLog();
+   InitializeCriticalSection(&g_UpDownCritical);
    todolist = new TodoList();
+
+   //注释原因：每次启动，都拉取服务端的所有版本信息到本地
+   //int last = CCommon::GetLastSyncId();
+   //if(last >= 0)
+	  // lastSyncId = last;
 
    g_downloadThread = new CDownloadThread(todolist,lastSyncId);
    //在验证过后开启该线程
    g_uploadThread = new CUploadThread(todolist);
+
+   g_downloadThread->_critical = &g_UpDownCritical;
+   g_uploadThread->_critical = &g_UpDownCritical;
 
    
 

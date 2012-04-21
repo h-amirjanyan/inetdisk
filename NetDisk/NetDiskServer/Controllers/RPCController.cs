@@ -38,20 +38,38 @@ namespace NetDiskServer.Controllers
                     Owner = user
                 };
             UploadPrepareViewModel viewmodel = new UploadPrepareViewModel();
-            try
-            {
 
-                db.FileUncomplete.Add(fileUncomplete);
-                db.SaveChanges();
-                viewmodel.ret = 0;
-                viewmodel.Id = fileUncomplete.Id;
-                viewmodel.hash = fileUncomplete.Hash;
-                viewmodel.DFSPath = "\\" + fileUncomplete.Hash;
-            }
-            catch (System.Exception ex)
+            //以该hash的的相同路径的最新版本作为当前版本
+            File thisVersion = db.Files.Where(f => f.FileName == model.FileName.GetFileName() && f.FilePath == model.FileName.GetFilePath() && f.Hash == model.Hash).OrderByDescending(f => f.Id).FirstOrDefault();
+
+            if (thisVersion != null)
+                viewmodel.IsExitsRemote = true;
+            else
+                viewmodel.IsExitsRemote = false;
+
+            if (viewmodel.IsExitsRemote)
             {
-                viewmodel.ret = -1;
-                viewmodel.msg = "save file to FileUncomplete failed!err info:" + ex.Message;
+                viewmodel.RemoteId = thisVersion.Id;
+                viewmodel.RemoteHash = thisVersion.Hash;
+                viewmodel.RemoteReversion = thisVersion.Reversion;
+            }
+            else
+            {
+                try
+                {
+
+                    db.FileUncomplete.Add(fileUncomplete);
+                    db.SaveChanges();
+                    viewmodel.ret = 0;
+                    viewmodel.Id = fileUncomplete.Id;
+                    viewmodel.hash = fileUncomplete.Hash;
+                    viewmodel.DFSPath = "\\" + fileUncomplete.Hash;
+                }
+                catch (System.Exception ex)
+                {
+                    viewmodel.ret = -1;
+                    viewmodel.msg = "save file to FileUncomplete failed!err info:" + ex.Message;
+                }
             }
 
             return Json(viewmodel, JsonRequestBehavior.AllowGet);
@@ -104,7 +122,7 @@ namespace NetDiskServer.Controllers
                 viewModel.Conflicted = false;
                 try
                 {
-                    File last = db.Files.OrderByDescending(f => f.Reversion).FirstOrDefault();
+                    File last = db.Files.Where(f=>f.FilePath == file.FilePath && f.FileName == file.FileName).OrderByDescending(f => f.Reversion).FirstOrDefault();
                     if (last != null)
                     {
                         file.Reversion = last.Reversion + 1;
@@ -160,6 +178,44 @@ namespace NetDiskServer.Controllers
 
 
         #region download
+        //（1）客户端将上次同步版本号发送给RPC
+        //（2）RPC查询出数据库中该用户需要同步的目录下所有版本大于客户端上次同步版本号的文件与文件夹。
+        //（3）将查询出的文件与文件夹按照版本号升序排列，如果文件夹和文件版本号相同，文件夹要在文件之前。如果文件和文件或者文件夹和文件夹版本相同按照ID大小排序。
+        //（4）将这些数据转化成Json格式返回给客户端。
+        /// <summary>
+        /// 获取更新列表
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetUpdateList(GetUpdateListModel model)
+        {
+            OauthTokenPair pair = unitOfWork.TokenReposity.GetTokenPair(model.oauth_token);
+            NetDiskUser user = unitOfWork.UserRepositiry.dbSet.SingleOrDefault(u => u.UserId == pair.UserId);
+
+            GetUpdateListViewModel viewModel = new GetUpdateListViewModel();
+            if (user == null)
+            {
+                viewModel.ret = -1;
+                viewModel.msg = "cannot find the user specified!";
+            }
+            else
+            {
+                List<File> fileList = db.Files.Where(f => f.Id > model.lastSyncId && f.Owner.UserId == user.UserId).OrderBy(f => f.Id).ToList();
+                viewModel.Files = new List<FileLiteModel>();
+                foreach (var item in fileList)
+                {
+                    FileLiteModel lite = new FileLiteModel
+                    {
+                        Hash = item.Hash,
+                        Id = item.Id,
+                        FullPath = item.FilePath + item.FileName
+                    };
+                    viewModel.Files.Add(lite);
+                }
+                viewModel.ret = 0;
+            }
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
+        }
+
         /// <summary>
         /// Downloads  prepare.
         /// 客户端提交需要更新的文件Id,以及本地版本号
@@ -167,35 +223,53 @@ namespace NetDiskServer.Controllers
         /// 更新则直接找到最新版本，通知客户端完全下载
         /// </summary>
         /// <returns></returns>
-        public JsonResult DownloadPrepare()
+        public JsonResult DownloadPrepare(DownloadPrepareModel model)
         {
-            throw new NotImplementedException();
+            OauthTokenPair pair = unitOfWork.TokenReposity.GetTokenPair(model.oauth_token);
+            NetDiskUser user = unitOfWork.UserRepositiry.dbSet.SingleOrDefault(u => u.UserId == pair.UserId);
+            DownloadPrepareViewModel viewModel = new DownloadPrepareViewModel();
+            if (user == null)
+            {
+                viewModel.ret = -1;
+                viewModel.msg = "cannot find the user specified!";
+            }
+            else
+            {
+                viewModel.ret = 0;
+                File file = db.Files.SingleOrDefault(f=>f.Id == model.Id);
+
+                if(file == null)
+                {
+                    viewModel.IsExits = false;
+                }
+                else
+                {
+                    File lastVersion = db.Files.Where(f => f.FilePath == file.FilePath && f.FileName == file.FileName).OrderByDescending(f => f.Id).FirstOrDefault();
+                    viewModel.IsExits = true;
+                    viewModel.IsDeleted = lastVersion.IsDeleted;
+                    viewModel.LastId = lastVersion.Id;
+                    viewModel.LastDFSPath = lastVersion.DFSPath;
+                    viewModel.LastReversion = lastVersion.Reversion;
+                    viewModel.LastHash = lastVersion.Hash;
+                }
+            }
+
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Downloads  complete.
-        /// 客户端通知服务端下载完毕，此时客户端应该已经更新了本地的版本号等信息
-        /// </summary>
-        /// <returns></returns>
-        public JsonResult DownloadComplete()
-        {
-            throw new NotImplementedException();
-        }
+        ///// <summary>
+        ///// Downloads  complete.
+        ///// 客户端通知服务端下载完毕，此时客户端应该已经更新了本地的版本号等信息
+        ///// </summary>
+        ///// <returns></returns>
+        //public JsonResult DownloadComplete()
+        //{
+        //    throw new NotImplementedException();
+        //}
         #endregion
 
 
         #region RPC操作
-        /// <summary>
-        /// （1）客户端将上次同步版本号发送给RPC
-        //（2）RPC查询出数据库中该用户需要同步的目录下所有版本大于客户端上次同步版本号的文件与文件夹。
-        //（3）将查询出的文件与文件夹按照版本号升序排列，如果文件夹和文件版本号相同，文件夹要在文件之前。如果文件和文件或者文件夹和文件夹版本相同按照ID大小排序。
-        //（4）将这些数据转化成Json格式返回给客户端。
-        /// </summary>
-        /// <returns></returns>
-        public JsonResult GetUpdateList()
-        {
-            throw new NotImplementedException();
-        }
 
 
         //（1）Client向RPC发送新增文件夹的名称和父目录Id
