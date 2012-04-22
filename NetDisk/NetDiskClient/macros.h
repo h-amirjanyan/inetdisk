@@ -13,5 +13,5 @@
 #define DB_PATHW	_T("C:\\NetdiskCache")
 #define DB_PATH		"C:\\NetdiskCache"
 
-#define DISK_DRIVERW _T("D:\\")
-#define DISK_DRIVER	"D:\\"
+#define DISK_DRIVERW _T("C:\\")
+#define DISK_DRIVER	"C:\\"

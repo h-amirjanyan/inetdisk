@@ -253,7 +253,7 @@ namespace NetDiskServer.Controllers
             File file = new File
             {
                 CreateTime = DateTime.Now,
-                DFSPath = fileUncomplete.Hash,
+                DFSPath = '\\' + fileUncomplete.Hash,
                 Hash = fileUncomplete.Hash,
                 FileName = fileUncomplete.FileName,
                 FilePath = fileUncomplete.FilePath,
@@ -322,7 +322,9 @@ namespace NetDiskServer.Controllers
             }
             else
             {
-                List<File> fileList = db.Files.Where(f => f.Id >= model.lastSyncId && f.Owner.UserId == user.UserId).OrderBy(f => f.Id).ToList();
+                List<File> fileList = db.Files.Where(f => f.Id > model.lastSyncId && f.Owner.UserId == user.UserId).ToList();
+                fileList.AddRange(db.Files.Where(f => f.Id == model.lastSyncId && f.IsDeleted && f.Owner.UserId == user.UserId));
+                fileList = fileList.OrderBy(f => f.Id).ToList();    //id从小到大,顺序更新
                 viewModel.Files = new List<FileLiteModel>();
                 foreach (var item in fileList)
                 {
