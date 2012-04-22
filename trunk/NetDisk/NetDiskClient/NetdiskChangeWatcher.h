@@ -103,7 +103,7 @@ public:
 	{
 		int pos = wstrPath.find(_T("Netdisk"));
 		wstrRealPath = wstrPath.substr(pos);
-		wstrRealPath.insert(0,_T("D:\\"));
+		wstrRealPath.insert(0,DISK_DRIVERW);
 	}
 
 

@@ -204,7 +204,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	   APP_TRACE("获取临时token失败，程序关闭!");
 	   MessageBox(hWnd,_T("获取临时token失败，程序关闭!"),_T("出错"),NULL);
    }
-   delete oclient;
+     delete oclient;
 
    /*using namespace Utils;*/
 
@@ -260,7 +260,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    IShellItem2* psi  = NULL;
 
    //IShellItem2* psi;
-   HRESULT result = ::SHCreateItemFromParsingName(_T("D:\\Netdisk"),0,IID_IShellItem2,reinterpret_cast<void**>(&psi));
+   HRESULT result = ::SHCreateItemFromParsingName(PATH_PREFIXW,0,IID_IShellItem2,reinterpret_cast<void**>(&psi));
    if(result != S_OK) 
 	   MessageBox(NULL,_T("创建shellitem失败"),_T("警告"),NULL);
    else
