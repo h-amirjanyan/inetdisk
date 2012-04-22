@@ -64,6 +64,7 @@ public:
 				op->m_operate = E_FILE_DELETE;
 				op->m_strfilename = *strRealpath;
 				pTodolist->Add(op);
+				pUploadThread->Start();
 				break;
 			}
 		case SHCNE_UPDATEITEM:
@@ -76,6 +77,7 @@ public:
 					op->m_operate = E_FILE_UPDATE_FILE;
 				op->m_strfilename = *strRealpath;
 				pTodolist->Add(op);
+				pUploadThread->Start();
 				break;
 			}
 		case  SHCNE_RENAMEITEM:

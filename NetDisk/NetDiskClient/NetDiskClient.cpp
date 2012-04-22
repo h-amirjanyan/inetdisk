@@ -179,18 +179,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    
 
 
-  //CComPtr<IShellItem2> psi /*= new IShellItem2()*/;
-   IShellItem2* psi  = NULL;
-
-   //IShellItem2* psi;
-   HRESULT result = ::SHCreateItemFromParsingName(_T("D:\\Netdisk"),0,IID_IShellItem2,reinterpret_cast<void**>(&psi));
-   if(result != S_OK) 
-	   MessageBox(NULL,_T("创建shellitem失败"),_T("警告"),NULL);
-   else
-   {
-	   watcher = new NetdiskChangeWatcher(hWnd,psi,g_uploadThread);
-	   watcher->StartWatching(psi,hWnd,WM_USERCHANGED,SHCNE_ALLEVENTS,TRUE);
-   }
+ 
 
 
 
@@ -209,6 +198,11 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		  {
  			  MessageBox(hWnd,_T("获取acessToken成功"),_T("提示"),NULL);
 	  };
+   }
+   else
+   {
+	   APP_TRACE("获取临时token失败，程序关闭!");
+	   MessageBox(hWnd,_T("获取临时token失败，程序关闭!"),_T("出错"),NULL);
    }
    delete oclient;
 
@@ -261,6 +255,19 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    string strDbPath("netdisk.db");
    strDbPath.insert(0,"\\");
    strDbPath.insert(0,DB_PATH);
+
+   //CComPtr<IShellItem2> psi /*= new IShellItem2()*/;
+   IShellItem2* psi  = NULL;
+
+   //IShellItem2* psi;
+   HRESULT result = ::SHCreateItemFromParsingName(_T("D:\\Netdisk"),0,IID_IShellItem2,reinterpret_cast<void**>(&psi));
+   if(result != S_OK) 
+	   MessageBox(NULL,_T("创建shellitem失败"),_T("警告"),NULL);
+   else
+   {
+	   watcher = new NetdiskChangeWatcher(hWnd,psi,g_uploadThread);
+	   watcher->StartWatching(psi,hWnd,WM_USERCHANGED,SHCNE_ALLEVENTS,TRUE);
+   }
 
    g_uploadThread->oauth_token = token;
    g_uploadThread->oauth_token_secret = token_secret;

@@ -40,7 +40,7 @@ namespace NetDiskServer.Controllers
             UploadPrepareViewModel viewmodel = new UploadPrepareViewModel();
 
             //以该hash的的相同路径的最新版本作为当前版本
-            File thisVersion = db.Files.Where(f => f.FileName == model.FileName.GetFileName() && f.FilePath == model.FileName.GetFilePath() && f.Hash == model.Hash).OrderByDescending(f => f.Id).FirstOrDefault();
+            File thisVersion = db.Files.Where(f => f.FileName == fileUncomplete.FileName && f.FilePath == fileUncomplete.FilePath && f.Hash == model.Hash).OrderByDescending(f => f.Id).FirstOrDefault();
 
             if (thisVersion != null)
                 viewmodel.IsExitsRemote = true;
@@ -90,6 +90,7 @@ namespace NetDiskServer.Controllers
             db.NetdiskUsers.Attach(user);
             FileUncomplete fileUncomplete = db.FileUncomplete.SingleOrDefault(f => f.Id == model.Id);
             uploadCompleteViewModel viewModel = new uploadCompleteViewModel();
+
             if (fileUncomplete == null)
             {
                 viewModel.ret = -1;
@@ -99,7 +100,7 @@ namespace NetDiskServer.Controllers
             File file = new File
             {
                 CreateTime = DateTime.Now,
-                DFSPath = fileUncomplete.Hash,
+                DFSPath = '\\' + fileUncomplete.Hash,
                 Hash = fileUncomplete.Hash,
                 FileName = fileUncomplete.FileName,
                 FilePath = fileUncomplete.FilePath,
@@ -107,7 +108,8 @@ namespace NetDiskServer.Controllers
                 FileType = 1,
                 IsDeleted = false,
                 LastModifyTime = DateTime.Now,
-                Owner = user
+                Owner = user,
+                Reversion = 0
             };
 
             if (db.Files.Count(a => a.FilePath == file.FilePath && a.FileName == file.FileName && !a.IsDeleted) > 0)
@@ -115,7 +117,7 @@ namespace NetDiskServer.Controllers
                 //已经有文件，返回冲突消息
                 file.FileName = file.FileName + "_conflict_copy";
                 viewModel.Conflicted = true;
-                viewModel.NewFilename = file.FileName;
+                viewModel.NewFilename = file.FilePath + file.FileName;
             }
             else
             {
@@ -136,7 +138,7 @@ namespace NetDiskServer.Controllers
                     db.SaveChanges();
                     viewModel.Id = file.Id;
                     viewModel.ret = 0;
-                    viewModel.NewFilename = file.FileName;
+                    viewModel.NewFilename = file.FilePath + file.FileName;
                     viewModel.Reversion = file.Reversion;
 
                     db.FileUncomplete.Remove(fileUncomplete);
@@ -158,10 +160,74 @@ namespace NetDiskServer.Controllers
         /// 返回文件id等，客户端收到之后应该完整上传
         /// </summary>
         /// <returns></returns>
-        public JsonResult ModifyPrepare()
+        public JsonResult ModifyPrepare(ModifyPrepareModel model)
         {
-            throw new NotImplementedException();
-        }
+            //根据客户端提供的路径查找最新版，看版本Id是否过期，如果过期则返回过期，客户端提示版本冲突，创建新文件重新提交
+            OauthTokenPair pair = unitOfWork.TokenReposity.GetTokenPair(model.oauth_token);
+            NetDiskUser user = unitOfWork.UserRepositiry.dbSet.SingleOrDefault(u => u.UserId == pair.UserId);
+            ModifyPrepareViewModel viewModel = new ModifyPrepareViewModel();
+            if (user == null)
+            {
+                viewModel.ret = -1;
+                viewModel.msg = "cannot find the user in cache, relogin may help";
+                return Json(viewModel, JsonRequestBehavior.AllowGet);
+            }
+           
+
+            db.NetdiskUsers.Attach(user);
+            FileUncomplete fileUncomplete = new FileUncomplete
+                {
+                    FileName = model.LocalPath.GetFileName(),
+                    FilePath = model.LocalPath.GetFilePath(),
+                    FileSize = model.NewFileSize,
+                    Hash = model.NewHash,
+                    IsCompleted = false,
+                    Owner = user
+                };
+            
+            
+            File lastversion = db.Files.Where(f => f.FileName == fileUncomplete.FileName && f.FilePath == fileUncomplete.FilePath).OrderByDescending(f => f.Id).FirstOrDefault();
+            if (lastversion == null)
+            {
+                viewModel.ret = -1;
+                viewModel.msg = "can not find the file specified";
+                return Json(viewModel, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                if (model.LocalId < lastversion.Id) //过期
+                {
+                    viewModel.IsOutOfData = true;
+                }
+                else if (model.LocalId == lastversion.Id && lastversion.IsDeleted) //过期，最后一个版本已经被删除
+                {
+                    viewModel.IsOutOfData = true;
+                    viewModel.IsDeleted = true;
+                }
+                else
+                {
+                    viewModel.IsOutOfData = false;
+                    viewModel.IsDeleted = false;
+                    try
+                    {
+                        fileUncomplete.Reversion = lastversion.Reversion + 1;
+                        db.FileUncomplete.Add(fileUncomplete);
+                        db.SaveChanges();
+                        viewModel.ret = 0;
+                        viewModel.Id = fileUncomplete.Id;
+                        viewModel.DFSPath = "\\" + fileUncomplete.Hash;
+                    }
+                    catch (System.Exception ex)
+                    {
+                        viewModel.ret = -1;
+                        viewModel.msg = "save file to FileUncomplete failed!err info:" + ex.Message;
+                    }
+                }
+            }
+
+
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
+         }
 
         /// <summary>
         /// 接收客户端上传成功的请求，把文件修改从fileuncomplete移动到file表
@@ -170,9 +236,66 @@ namespace NetDiskServer.Controllers
         /// 客户端收到之后更新本地数据
         /// </summary>
         /// <returns></returns>
-        public JsonResult ModifyComplete()
+        public JsonResult ModifyComplete(ModifyCompleteModel model)
         {
-            throw new NotImplementedException();
+
+            OauthTokenPair pair = unitOfWork.TokenReposity.GetTokenPair(model.oauth_token);
+            NetDiskUser user = unitOfWork.UserRepositiry.dbSet.SingleOrDefault(u => u.UserId == pair.UserId);
+            db.NetdiskUsers.Attach(user);
+            FileUncomplete fileUncomplete = db.FileUncomplete.SingleOrDefault(f => f.Id == model.Id);
+            uploadCompleteViewModel viewModel = new uploadCompleteViewModel();
+            if (fileUncomplete == null)
+            {
+                viewModel.ret = -1;
+                viewModel.msg = "unComplete recorde is miss";
+            }
+
+            File file = new File
+            {
+                CreateTime = DateTime.Now,
+                DFSPath = fileUncomplete.Hash,
+                Hash = fileUncomplete.Hash,
+                FileName = fileUncomplete.FileName,
+                FilePath = fileUncomplete.FilePath,
+                FileSize = fileUncomplete.FileSize,
+                FileType = 1,
+                IsDeleted = false,
+                LastModifyTime = DateTime.Now,
+                Owner = user,
+                Reversion = fileUncomplete.Reversion
+            };
+
+            File lastversion =  db.Files.Where(f => f.FileName == fileUncomplete.FileName && f.FilePath == fileUncomplete.FilePath).OrderByDescending(f => f.Id).FirstOrDefault();
+            if(lastversion.IsDeleted || lastversion.Reversion >= file.Reversion)
+            {
+                //该版本已经被删除或者有更新版本
+                file.FileName = file.FileName + "_conflict_copy_MC";
+                viewModel.Conflicted = true;
+                viewModel.NewFilename = file.FileName;
+            }
+            else
+            {
+                viewModel.Conflicted = false;
+                try
+                {
+                   
+                    db.Files.Add(file);
+                    db.SaveChanges();
+                    viewModel.Id = file.Id;
+                    viewModel.ret = 0;
+                    viewModel.NewFilename = file.FileName;
+                    viewModel.Reversion = file.Reversion;
+
+                    db.FileUncomplete.Remove(fileUncomplete);
+                    db.SaveChanges();
+                }
+                catch (System.Exception ex)
+                {
+                    viewModel.ret = -1;
+                    viewModel.msg = "save db failed,err info:" + ex.Message;
+                }
+            }
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
         #endregion
 
@@ -199,7 +322,7 @@ namespace NetDiskServer.Controllers
             }
             else
             {
-                List<File> fileList = db.Files.Where(f => f.Id > model.lastSyncId && f.Owner.UserId == user.UserId).OrderBy(f => f.Id).ToList();
+                List<File> fileList = db.Files.Where(f => f.Id >= model.lastSyncId && f.Owner.UserId == user.UserId).OrderBy(f => f.Id).ToList();
                 viewModel.Files = new List<FileLiteModel>();
                 foreach (var item in fileList)
                 {
@@ -286,9 +409,41 @@ namespace NetDiskServer.Controllers
         //（2）RPC接收该请求后，先检查数据块，如果文件不存在或已删除，则直接取消操作。
         //（3）如果文件存在且未删除且和本地版本相同，新增删除版本号,并通知其他Client同步删除该文件。
         //（4）删除文件要求只能删除版本小于本地文件的版本，也就是说如果服务器文件版本大于本地文件版本，删除文件操作将取消。
-        public JsonResult DeleteFile()
+        public JsonResult DeleteFile(RPCDeleteModel model)
         {
-            throw new NotImplementedException();
+            OauthTokenPair pair = unitOfWork.TokenReposity.GetTokenPair(model.oauth_token);
+            NetDiskUser user = unitOfWork.UserRepositiry.dbSet.SingleOrDefault(u => u.UserId == pair.UserId);
+            RPCDeleteViewModel viewModel = new RPCDeleteViewModel();
+            if (user == null)
+            {
+                viewModel.ret = -1;
+                viewModel.msg = "cannot find the user specified!";
+            }
+            else
+            {
+                File fileSpecified = db.Files.Where(f => f.Id == model.Id).SingleOrDefault();
+                if (fileSpecified == null)
+                {
+                    viewModel.ret = 0;
+                    viewModel.msg = "指定版本不存在，直接删除";
+                    viewModel.IsConficted = true; //让本地重命名
+                }
+                else
+                {
+                    File last = db.Files.Where(f => f.FilePath == fileSpecified.FilePath && f.FileName == fileSpecified.FileName).OrderByDescending(f => f.Id).FirstOrDefault();
+                    if (fileSpecified.Reversion == last.Reversion && !last.IsDeleted)
+                    {
+                        last.IsDeleted = true;
+                        db.SaveChanges();
+                        viewModel.IsConficted = false;
+                    }
+                    else
+                    {
+                        viewModel.IsConficted = true;
+                    }
+                }
+            }
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
 
         //（1）删除文件夹要求不能删除文件夹中未同步到本地的文件或文件夹。

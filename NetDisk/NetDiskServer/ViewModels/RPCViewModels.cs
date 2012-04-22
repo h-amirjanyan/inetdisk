@@ -5,10 +5,8 @@ using System.Web;
 
 namespace NetDiskServer.ViewModels
 {
-    public class SyncViewModels
+    public class RPCDeleteViewModel : SyncBaseViewModel
     {
-        public int ret { get; set; }
-        public string msg { get; set; }
-
+        public bool IsConficted { get; set; }
     }
 }
