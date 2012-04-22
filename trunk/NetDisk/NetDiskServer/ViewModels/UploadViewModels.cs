@@ -5,7 +5,7 @@ using System.Web;
 
 namespace NetDiskServer.ViewModels
 {
-    public class UploadPrepareViewModel : SyncViewModels
+    public class UploadPrepareViewModel : SyncBaseViewModel
     {
         public int Id { get; set; }
         public string hash { get; set; }
@@ -25,7 +25,7 @@ namespace NetDiskServer.ViewModels
         public string RemoteHash { get; set; }
     }
 
-    public class uploadCompleteViewModel : SyncViewModels
+    public class uploadCompleteViewModel : SyncBaseViewModel
     {
         public int Id { get; set; }
 

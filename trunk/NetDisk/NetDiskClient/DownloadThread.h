@@ -48,7 +48,7 @@ public:
 				if(self->pTodolist->GetSize() > 0 )
 				{
 					APP_TRACE("上传队列不为空，继续上传流程，本线程即将休眠");
-					Sleep(30*1000);
+					//Sleep(30*1000);
 				}
 				else
 				{
@@ -61,6 +61,7 @@ public:
 			}
 			//临界区结束
 			LeaveCriticalSection(self->_critical);
+			APP_TRACE("下次下载流程结束，下载线程退出临界区");
 			Sleep(30*1000);
 		}
 		return 0;
@@ -107,8 +108,8 @@ public:
 				//如果成功就更新lastsyncid，否则继续下一次更新，
 				if(UpdateSingleFile(arryObj[i]["Id"].asInt(),arryObj[i]["FullPath"].asString(),arryObj[i]["Hash"].asString()))
 				{
-					if(bAllSucceeded)
-						lastSyncId = arryObj[i]["Id"].asInt();
+				/*	if(bAllSucceeded)
+						lastSyncId = arryObj[i]["Id"].asInt();*/
 				}
 				else
 				{
@@ -126,6 +127,9 @@ EXIT:
 		bool bUpdateResult = false;
 		USES_CONVERSION;
 		
+		int lastVersionLocal = GetLastVersionLocal(fullPath);
+		
+
 		HttpClient* client = new HttpClient();
 		string* url = new string(HOST_URL);
 		url->append("/");
@@ -155,27 +159,26 @@ EXIT:
 
 		if(!value["IsExits"].asBool())
 		{
-			APP_TRACE("服务端%s不存在",fullPath.c_str());
+			APP_TRACE("服务端%s不存在",fullPath.c_str());	//?这个是数据错误吗，哈哈
 			bUpdateResult = true;
 			goto EXIT;
 		}
 
 		if(value["IsDeleted"].asBool())
 		{
-			bUpdateResult = true;
 			//delete file and record in db local
+			bUpdateResult = DeleteLocal(fullPath);
 			goto EXIT;
 		}
 		else
 		{
-			int lastVersionLocal = GetLastVersionLocal(fullPath);
+			
 			int lastVersionRemote = value["LastReversion"].asInt();
 			if( lastVersionRemote > lastVersionLocal)
 			{
 				//下载该文件最新版本
 				SAFE_DELETE(url);
 				url = new string(HOST_URL);
-				url->append("/");
 				url->append("/Download/Download");
 				client->Clear();
 				client->AddParam("DFSPath",value["LastDFSPath"].asString());
@@ -204,8 +207,25 @@ EXIT:
 EXIT:
 		SAFE_DELETE(url);
 		SAFE_DELETE(client);
+		if(bUpdateResult)
+			lastSyncId = id;
 		CCommon::SetLastSyncId(lastSyncId);
 		return bUpdateResult;
+	}
+
+	bool DeleteLocal(string fullpath)
+	{
+		USES_CONVERSION;
+		wstring fullFileName(PATH_PREFIXW);//for: D:\testdir\demo.doc
+		fullFileName.append(CA2W(fullpath.c_str()));
+		CppSQLite3DB db;
+		db.open(strDBPath.c_str());
+		char szSQL[256];
+		sprintf(szSQL,"delete from Files where FileName like '%s';", fullpath.c_str());
+		db.execDML(szSQL);
+		DeleteFile(fullFileName.c_str());
+		db.close();
+		return true;
 	}
 
 	int GetLastVersionLocal(string fullpath)
@@ -219,13 +239,14 @@ EXIT:
 		CppSQLite3Table t = db.getTable(buffer);
 		bool ret = (bool)t.numRows();
 		int version = -1;
-		t.finalize();
+		
 
 		if(ret)
 		{
 			t.setRow(0);
 			version = t.getIntField(0);
 		}
+		t.finalize();
 		db.close();
 		return version;
 	}

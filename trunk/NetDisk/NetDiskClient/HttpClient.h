@@ -303,7 +303,7 @@ namespace Utils
 				fprintf(stderr, "Failed to set writer [%s]\n", this->m_chErrorBuffer);
 				return false;
 			}
-			FILE* pFile = fopen(filename,"wb");
+			FILE* pFile = fopen(filename,"wb"); //¸²¸ÇÐ´ http://www.cplusplus.com/reference/clibrary/cstdio/fopen/
 			code = curl_easy_setopt(conn, CURLOPT_WRITEDATA, (void*)pFile);
 			if (code != CURLE_OK)
 			{
@@ -313,7 +313,8 @@ namespace Utils
 
 			code = curl_easy_perform(conn);
 
-			fclose(pFile);
+			//fclose(pFile);
+			int hclose = fclose(pFile);
 			
 			curl_easy_cleanup(conn);
 

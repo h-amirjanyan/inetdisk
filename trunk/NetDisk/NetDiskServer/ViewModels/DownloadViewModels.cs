@@ -7,7 +7,7 @@ using NetDiskServer.ViewModels;
 
 namespace NetDiskServer.ViewModels
 {
-    public class GetUpdateListViewModel : SyncViewModels
+    public class GetUpdateListViewModel : SyncBaseViewModel
     {
         public List<FileLiteModel> Files { get; set; }
     }
@@ -19,7 +19,7 @@ namespace NetDiskServer.ViewModels
         public string Hash { get; set; }
     }
 
-    public class DownloadPrepareViewModel : SyncViewModels
+    public class DownloadPrepareViewModel : SyncBaseViewModel
     {
         public bool IsExits { get; set; }
 

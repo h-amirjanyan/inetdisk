@@ -116,7 +116,9 @@ __main(int argc, char **argv)
 int MD5Calc::mdfile(char *szFile, unsigned char *digest)
 {
 	FILE* fp = fopen(szFile,"rb");
-	return mdfile(fp,digest);
+	int ret = mdfile(fp,digest);
+	fclose(fp);
+	return ret;
 }
 
 int MD5Calc::mdfile(FILE *fp, unsigned char *digest)

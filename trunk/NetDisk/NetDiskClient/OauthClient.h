@@ -5,6 +5,7 @@
 #include "WebBrowser.h"
 #include <json/json.h>
 #include <atlbase.h>
+#include "macros.h"
 //#include
 
 namespace API
@@ -32,7 +33,10 @@ namespace API
 		bool GetTempToken(string& str_oauth_token,string &str_oauth_token_secret)
 		{
 			HttpClient* client = new HttpClient();
-			if(client->GetBodyByUrl("http://127.0.0.1:5243/Open/RequestToken?oauth_consumer_key=testconsumerkey"))
+			string *url = new string(HOST_URL);
+			url->append("/Open/RequestToken?oauth_consumer_key=");
+			url->append(CUSUMER_KEY);
+			if(client->GetBodyByUrl(const_cast<char*>(url->c_str())))
 			{
 				Json::Reader reader;
 				Json::Value value;
@@ -50,28 +54,17 @@ namespace API
 					return !isNull;
 				}
 			}
+			delete url;
 			return false;
 			
-			/*public string oauth_consumer_key { get; set; }
-
-			public string oauth_signature_method { get; set; }
-
-			public string oauth_signature { get; set; }
-
-			public int oauth_timestamp { get; set; }
-
-			public string oauth_nonce { get; set; }
-
-			public string oauth_version { get; set; }*/
-
-
 		}
 
 		bool Authorize(string& str_oauth_token)
 		{
 			//打开浏览器获取oauth_token
 			MyWebBrowser* bro = new MyWebBrowser();
-			string* url = new string("http://127.0.0.1:5243/Open/Authorize?oauth_token=");//CA2W
+			string* url = new string(HOST_URL);
+			url->append("/open/Authorize?oauth_token=");
 			url->append(str_oauth_token);
 			bool ret = bro->OpenUrl(CA2W(url->c_str()));
 			delete bro;
@@ -82,7 +75,8 @@ namespace API
 		{
 
 			HttpClient* client = new HttpClient();
-			string* url = new string("http://127.0.0.1:5243/Open/AccessToken?oauth_token=");
+			string* url = new string(HOST_URL);
+			url->append("/Open/AccessToken?oauth_token=");
 			url->append(str_oauth_token);
 			if(client->GetBodyByUrl(const_cast<char*>(url->c_str())))
 			{

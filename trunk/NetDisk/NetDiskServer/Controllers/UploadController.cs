@@ -20,6 +20,9 @@ namespace NetDiskServer.Controllers
         {
             SyncBaseViewModel viewModel = new SyncBaseViewModel();
 
+            if (DFSPath[0] != '\\')
+                DFSPath = '\\' + DFSPath;
+
             if (Request.Files["UploadFile"].HasFile())
             {
                 try
