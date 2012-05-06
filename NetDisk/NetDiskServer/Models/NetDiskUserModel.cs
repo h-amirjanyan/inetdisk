@@ -43,6 +43,7 @@ namespace NetDiskServer.Models
         /// <value>
         /// The password.
         /// </value>
+          [DataType(DataType.Password)]
         public string Password { get; set; }
 
         /// <summary>

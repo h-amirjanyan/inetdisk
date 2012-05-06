@@ -41,7 +41,8 @@ public:
 		while(1)
 		{
 			//临界区开始
-			EnterCriticalSection(self->_critical);
+			EnterCriticalSection(self->_critical); //进入临界区
+			//do work 
 			APP_TRACE("开始一次同步流程,下载线程进入临界区");
 			if(self->pTodolist)
 			{
@@ -60,7 +61,7 @@ public:
 				return -1;
 			}
 			//临界区结束
-			LeaveCriticalSection(self->_critical);
+			LeaveCriticalSection(self->_critical);//离开临界区
 			APP_TRACE("下次下载流程结束，下载线程退出临界区");
 			Sleep(30*1000);
 		}
@@ -123,7 +124,7 @@ EXIT:
 	}
 
 	bool UpdateSingleFile(int id, string fullPath, string hash)
-	{
+ 	{
 		bool bUpdateResult = false;
 		USES_CONVERSION;
 		

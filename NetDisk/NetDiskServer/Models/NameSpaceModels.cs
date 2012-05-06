@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NetDiskServer.Models
 {
-    public class NameSpaceModels
-    {
-    }
+    //public class NameSpaceModels
+    //{
+    //}
 
     /// <summary>
     /// File Model

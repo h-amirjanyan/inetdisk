@@ -1,7 +1,7 @@
 #pragma once
 #define SAFE_DELETE(p)  if(p){delete p; p=NULL;}
-#define HOST_URLW	_T("http://NetdiskServer:5243")
-#define HOST_URL	"http://NetdiskServer:5243"
+#define HOST_URLW	_T("http://NetdiskServer")
+#define HOST_URL	"http://NetdiskServer"
 #define	CUSUMER_KEY	"oauth_consumer_key"
 #define	CUSUMER_KEYW	_T("oauth_consumer_key")
 
