@@ -3,7 +3,7 @@
 
 
 CUploadThread::CUploadThread(TodoList* _pTodolist)
-	:pTodolist(_pTodolist),hThread(0),uThreadId(0),_critical(NULL)
+	:pTodolist(_pTodolist),hThread(0),uThreadId(0),_critical(NULL),m_failedCount(0)
 {
 }
 

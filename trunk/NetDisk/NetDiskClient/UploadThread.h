@@ -37,7 +37,7 @@ public:
 		{
 			//临界区开始
 			EnterCriticalSection(self->_critical);
-			if(self->pTodolist->GetSize() > 0)
+			while(self->pTodolist->GetSize() > 0)
 			{
 				//开始上传流程
 				APP_TRACE("开始上传流程");
@@ -49,10 +49,17 @@ public:
 						APP_TRACE("处理%s成功",W2CA(operate->m_strfilename.c_str()));
 						self->pTodolist->Remove(operate);
 						SAFE_DELETE(operate);
+						self->m_failedCount = 0;
 					}
 					else
 					{
 						APP_TRACE("上传%s失败，上传线程休眠10s",W2CA(operate->m_strfilename.c_str()));
+						self->m_failedCount ++;
+						if (self->m_failedCount > 100)
+						{
+							APP_TRACE("上传线程失败过多，超过阀值，可能已经出现了死锁，请检查网络。\r\n本程序在点击OK后关闭.");
+							PostQuitMessage(-1);
+						}
 						Sleep(10*1000);//休息10s在此尝试
 					}
 				}
@@ -64,8 +71,9 @@ public:
 			{
 				APP_TRACE("没有文件需要上传，进入休眠状态");
 				//Sleep(10*60*1000);//休眠10s
-				Sleep(30*1000);
-				APP_TRACE("上传线程休眠结束");
+				//Sleep(30*1000);
+				SuspendThread(self->hThread);
+				APP_TRACE("上传线程被唤醒");
 			}
 		}
 	}
@@ -155,7 +163,7 @@ public:
 				{
 					char szReinsert[356];
 					sprintf(szReinsert,"insert into Files (Id,FileName,Reversion,Hash) values(%d,'%s','%d','%s');",
-						value["RemoteId"].asString().c_str(),
+						value["RemoteId"].asInt(),
 							strFilename.c_str(),
 							value["RemoteReversion"].asInt(),
 							value["RemoteHash"].asString().c_str());
@@ -598,6 +606,7 @@ public:
 	string		oauth_token_secret;
 	string		strDBPath;
 
+	int			m_failedCount;
 	CRITICAL_SECTION *_critical;
 };
 

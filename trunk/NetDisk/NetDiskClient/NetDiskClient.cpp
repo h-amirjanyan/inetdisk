@@ -203,6 +203,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    {
 	   APP_TRACE("获取临时token失败，程序关闭!");
 	   MessageBox(hWnd,_T("获取临时token失败，程序关闭!"),_T("出错"),NULL);
+	   return FALSE;
    }
      delete oclient;
 

@@ -40,7 +40,7 @@ namespace NetDiskServer.Controllers
             UploadPrepareViewModel viewmodel = new UploadPrepareViewModel();
 
             //以该hash的的相同路径的最新版本作为当前版本
-            File thisVersion = db.Files.Where(f => f.FileName == fileUncomplete.FileName && f.FilePath == fileUncomplete.FilePath && f.Hash == model.Hash).OrderByDescending(f => f.Id).FirstOrDefault();
+            File thisVersion = db.Files.Where(f => f.FileName == fileUncomplete.FileName && f.FilePath == fileUncomplete.FilePath && f.Hash == model.Hash && !f.IsDeleted).OrderByDescending(f => f.Id).FirstOrDefault();
 
             if (thisVersion != null)
                 viewmodel.IsExitsRemote = true;
