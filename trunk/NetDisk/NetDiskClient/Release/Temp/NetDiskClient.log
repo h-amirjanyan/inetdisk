@@ -1,0 +1,57 @@
+﻿Build started 2012/4/27 1:00:12.
+     1>Project "F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\NetDiskClient\NetDiskClient.vcxproj" on node 2 (build target(s)).
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(298,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
+     1>InitializeBuildStatus:
+         Creating "Release\Temp\NetDiskClient.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+         d:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release\Temp\NetDiskClient.pch" /Fo"Release\Temp\\" /Fd"Release\Temp\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt DownloadThread.cpp NetDiskClient.cpp NetdiskChangeWatcher.cpp OauthClient.cpp UploadThread.cpp
+         DownloadThread.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\DownloadThread.h(106): warning C4018: '<' : signed/unsigned mismatch
+         NetDiskClient.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\HttpClient.h(306): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\DownloadThread.h(106): warning C4018: '<' : signed/unsigned mismatch
+         NetdiskChangeWatcher.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\HttpClient.h(306): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+         OauthClient.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\HttpClient.h(306): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+         UploadThread.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\HttpClient.h(306): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+       ResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         d:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\\Bin\Release\NetDiskClient.exe" /INCREMENTAL:NO /NOLOGO jsoncpp_static.lib libcurl_imp.lib curllib_static.lib sqlite3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Temp\NetDiskClient.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\Bin\Release\NetDiskClient.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\\Bin\Release\NetDiskClient.lib" /MACHINE:X86 Release\Temp\NetDiskClient.res
+         Release\Temp\ChangeNotifyWatcher.obj
+         Release\Temp\Common.obj
+         Release\Temp\CppSQLite3.obj
+         Release\Temp\DownloadThread.obj
+         Release\Temp\FileChange.obj
+         Release\Temp\HttpClient.obj
+         Release\Temp\Log.obj
+         Release\Temp\MD5Calc.obj
+         Release\Temp\MD5Core.obj
+         Release\Temp\NetdiskChangeWatcher.obj
+         Release\Temp\NetDiskClient.obj
+         Release\Temp\OauthClient.obj
+         Release\Temp\OPini.obj
+         Release\Temp\stdafx.obj
+         Release\Temp\TodoList.obj
+         Release\Temp\UploadThread.obj
+         Release\Temp\WebBrowser.obj
+         Generating code
+         Finished generating code
+         NetDiskClient.vcxproj -> F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\\Bin\Release\NetDiskClient.exe
+       Manifest:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\\Bin\Release\NetDiskClient.exe;#1" /manifest Release\Temp\NetDiskClient.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Release\Temp\NetDiskClient.unsuccessfulbuild".
+         Touching "Release\Temp\NetDiskClient.lastbuildstate".
+     1>Done Building Project "F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\NetDiskClient\NetDiskClient.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:27.26

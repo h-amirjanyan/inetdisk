@@ -49,7 +49,6 @@ public:
 				if(self->pTodolist->GetSize() > 0 )
 				{
 					APP_TRACE("上传队列不为空，继续上传流程，本线程即将休眠");
-					//Sleep(30*1000);
 				}
 				else
 				{

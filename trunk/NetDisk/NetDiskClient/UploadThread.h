@@ -60,7 +60,7 @@ public:
 							APP_TRACE("上传线程失败过多，超过阀值，可能已经出现了死锁，请检查网络。\r\n本程序在点击OK后关闭.");
 							PostQuitMessage(-1);
 						}
-						Sleep(10*1000);//休息10s在此尝试
+						Sleep(10*1000);//休息10s再次尝试
 					}
 				}
 				
@@ -70,8 +70,6 @@ public:
 			if(self->pTodolist->GetSize() == 0)
 			{
 				APP_TRACE("没有文件需要上传，进入休眠状态");
-				//Sleep(10*60*1000);//休眠10s
-				//Sleep(30*1000);
 				SuspendThread(self->hThread);
 				APP_TRACE("上传线程被唤醒");
 			}

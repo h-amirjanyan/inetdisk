@@ -1,0 +1,124 @@
+﻿Build started 2012/5/19 8:59:59.
+     1>Project "F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\NetDiskClient\NetDiskClient.vcxproj" on node 3 (build target(s)).
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(298,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
+     1>InitializeBuildStatus:
+         Creating "Debug\Temp\NetDiskClient.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         d:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Debug\Temp\NetDiskClient.pch" /Fo"Debug\Temp\\" /Fd"Debug\Temp\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         d:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Temp\NetDiskClient.pch" /Fo"Debug\Temp\\" /Fd"Debug\Temp\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ChangeNotifyWatcher.cpp Common.cpp CppSQLite3.cpp DownloadThread.cpp FileChange.cpp HttpClient.cpp Log.cpp MD5Calc.cpp MD5Core.cpp NetdiskChangeWatcher.cpp NetDiskClient.cpp OauthClient.cpp OPini.cpp TodoList.cpp UploadThread.cpp WebBrowser.cpp
+         WebBrowser.cpp
+         UploadThread.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\httpclient.h(306): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+         TodoList.cpp
+         OPini.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\opini.cpp(63): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\string.h(276) : see declaration of 'wcscat'
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\opini.cpp(86): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\string.h(276) : see declaration of 'wcscat'
+         OauthClient.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\httpclient.h(306): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+         NetDiskClient.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\httpclient.h(306): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\downloadthread.h(106): warning C4018: '<' : signed/unsigned mismatch
+         NetdiskChangeWatcher.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\httpclient.h(306): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+         MD5Core.cpp
+         MD5Calc.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\md5calc.cpp(21): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\md5calc.cpp(118): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\md5calc.cpp(183): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+         Log.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\log.cpp(48): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\string.h(110) : see declaration of 'strcat'
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\log.cpp(55): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\time.inl(112) : see declaration of 'localtime'
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\log.cpp(58): warning C4996: '_strdate': This function or variable may be unsafe. Consider using _strdate_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\time.h(177) : see declaration of '_strdate'
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\log.cpp(59): warning C4996: '_strtime': This function or variable may be unsafe. Consider using _strtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\time.h(181) : see declaration of '_strtime'
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\log.cpp(62): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\log.cpp(70): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(363) : see declaration of '_vsnprintf'
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\log.cpp(78): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+         HttpClient.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\httpclient.h(306): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+         FileChange.cpp
+         DownloadThread.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\downloadthread.h(106): warning C4018: '<' : signed/unsigned mismatch
+         CppSQLite3.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\cppsqlite3.cpp(1079): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\cppsqlite3.cpp(1255): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         Common.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\netdiskclient\common.h(26): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _itoa. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdlib.h(867) : see declaration of 'itoa'
+         ChangeNotifyWatcher.cpp
+         Generating Code...
+       ResourceCompile:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Debug\Temp\NetDiskClient.res" NetDiskClient.rc 
+       ManifestResourceCompile:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\Temp\NetDiskClient.exe.embed.manifest.res" Debug\Temp\NetDiskClient_manifest.rc 
+       Link:
+         d:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\\Bin\Debug\NetDiskClient.exe" /INCREMENTAL /NOLOGO jsoncpp_static.lib libcurl_imp.lib curllib_static.lib sqlite3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Temp\NetDiskClient.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\Bin\Debug\NetDiskClient.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\\Bin\Debug\NetDiskClient.lib" /MACHINE:X86 Debug\Temp\NetDiskClient.res
+         Debug\Temp\NetDiskClient.exe.embed.manifest.res
+         Debug\Temp\ChangeNotifyWatcher.obj
+         Debug\Temp\Common.obj
+         Debug\Temp\CppSQLite3.obj
+         Debug\Temp\DownloadThread.obj
+         Debug\Temp\FileChange.obj
+         Debug\Temp\HttpClient.obj
+         Debug\Temp\Log.obj
+         Debug\Temp\MD5Calc.obj
+         Debug\Temp\MD5Core.obj
+         Debug\Temp\NetdiskChangeWatcher.obj
+         Debug\Temp\NetDiskClient.obj
+         Debug\Temp\OauthClient.obj
+         Debug\Temp\OPini.obj
+         Debug\Temp\stdafx.obj
+         Debug\Temp\TodoList.obj
+         Debug\Temp\UploadThread.obj
+         Debug\Temp\WebBrowser.obj
+       Manifest:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\Temp\NetDiskClient.exe.embed.manifest" /manifest Debug\Temp\NetDiskClient.exe.intermediate.manifest
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\Temp\NetDiskClient.exe.embed.manifest.res" Debug\Temp\NetDiskClient_manifest.rc 
+       LinkEmbedManifest:
+         d:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\\Bin\Debug\NetDiskClient.exe" /INCREMENTAL /NOLOGO jsoncpp_static.lib libcurl_imp.lib curllib_static.lib sqlite3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Temp\NetDiskClient.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\Bin\Debug\NetDiskClient.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\\Bin\Debug\NetDiskClient.lib" /MACHINE:X86 Debug\Temp\NetDiskClient.res
+         Debug\Temp\NetDiskClient.exe.embed.manifest.res
+         Debug\Temp\ChangeNotifyWatcher.obj
+         Debug\Temp\Common.obj
+         Debug\Temp\CppSQLite3.obj
+         Debug\Temp\DownloadThread.obj
+         Debug\Temp\FileChange.obj
+         Debug\Temp\HttpClient.obj
+         Debug\Temp\Log.obj
+         Debug\Temp\MD5Calc.obj
+         Debug\Temp\MD5Core.obj
+         Debug\Temp\NetdiskChangeWatcher.obj
+         Debug\Temp\NetDiskClient.obj
+         Debug\Temp\OauthClient.obj
+         Debug\Temp\OPini.obj
+         Debug\Temp\stdafx.obj
+         Debug\Temp\TodoList.obj
+         Debug\Temp\UploadThread.obj
+         Debug\Temp\WebBrowser.obj
+         NetDiskClient.vcxproj -> F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\\Bin\Debug\NetDiskClient.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\Temp\NetDiskClient.unsuccessfulbuild".
+         Touching "Debug\Temp\NetDiskClient.lastbuildstate".
+     1>Done Building Project "F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\NetDiskClient\NetDiskClient.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:45.22
