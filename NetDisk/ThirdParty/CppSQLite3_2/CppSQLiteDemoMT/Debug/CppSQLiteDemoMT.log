@@ -1,0 +1,30 @@
+﻿Build started 2012/4/19 17:38:50.
+     1>Project "F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\ThirdParty\CppSQLite3_2\CppSQLiteDemoMT\CppSQLiteDemoMT.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\Debug\CppSQLiteDemoMT.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         d:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\Common /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug/" /Fd".\Debug/vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Common\CppSQLite3.cpp CppSQLite3DemoMT.cpp
+         CppSQLite3.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\thirdparty\cppsqlite3_2\common\cppsqlite3.cpp(1078): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\thirdparty\cppsqlite3_2\common\cppsqlite3.cpp(1254): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         CppSQLite3DemoMT.cpp
+     1>f:\文档\毕业设计\research\netdisksrc\trunk\netdisk\thirdparty\cppsqlite3_2\cppsqlitedemomt\cppsqlite3demomt.cpp(176): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         Generating Code...
+       Link:
+         d:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug/CppSQLiteDemoMT.exe" /INCREMENTAL:NO /NOLOGO ..\Common\sqlite3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:".\Debug\CppSQLiteDemoMT.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:".\Debug/CppSQLiteDemoMT.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\CppSQLiteDemoMT.lib" /MACHINE:X86 .\Debug/CppSQLite3.obj
+         .\Debug/CppSQLite3DemoMT.obj
+     1>CppSQLite3.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+         CppSQLiteDemoMT.vcxproj -> F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\ThirdParty\CppSQLite3_2\CppSQLiteDemoMT\.\Debug\CppSQLiteDemoMT.exe
+       Manifest:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:".\Debug/CppSQLiteDemoMT.exe;#1" /manifest .\Debug\CppSQLiteDemoMT.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file ".\Debug\CppSQLiteDemoMT.unsuccessfulbuild".
+         Touching ".\Debug\CppSQLiteDemoMT.lastbuildstate".
+     1>Done Building Project "F:\文档\毕业设计\research\NetDiskSrc\trunk\NetDisk\ThirdParty\CppSQLite3_2\CppSQLiteDemoMT\CppSQLiteDemoMT.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:10.66
